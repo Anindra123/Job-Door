@@ -1,14 +1,14 @@
 @extends('layout.dashboardlayout')
 
 @section('title')
-Add Work Experience
+Update Work Experience
 @endsection
 
 @section('content')
 
 <div class="container">
 
-    <h1>Add Work Experience</h1>
+    <h1>Update Work Experience</h1>
     <br>
     @if(isset($sucess))
     <div class="alert alert-dismissible alert-success">
@@ -116,7 +116,7 @@ Add Work Experience
         <div class="row ">
             <div class="col-sm-1">
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                    <button type="submit" class="btn btn-sm btn-info">Update</button>
                 </div>
             </div>
             <div class="col-sm-2">

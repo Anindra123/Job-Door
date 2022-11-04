@@ -24,7 +24,7 @@ Update Profile
                 <legend>Update your profile</legend>
                 <div class="form-group">
                     <label for="fname" class="form-label">First name :</label>
-                    <input type="text" class="form-control" name="fname" id="fname" value="{{isset($profile) ? $profile->fname : old('fname')}}">
+                    <input type="text" class="form-control" name="fname" id="fname" value="{{$profile->fname ?? old('fname')}}">
                     @if($errors->has('fname'))
                     <span class="text text-danger">
                         <strong> {{$errors->first('fname')}}</strong>
@@ -33,7 +33,7 @@ Update Profile
                 </div>
                 <div class="form-group">
                     <label for="lname" class="form-label">Last name :</label>
-                    <input type="text" class="form-control" name="lname" id="lname" value="{{isset($profile) ? $profile->lname : old('lname')}}">
+                    <input type="text" class="form-control" name="lname" id="lname" value="{{$profile->lname ?? old('lname')}}">
                     @if($errors->has('lname'))
                     <span class=" text text-danger">
                         <strong>{{$errors->first('lname')}}</strong>
@@ -57,6 +57,7 @@ Update Profile
                 </div>
             </fieldset>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="profile" class="btn btn-primary">Go Back</a>
         </form>
     </div>
     <div class="col-lg-2"></div>

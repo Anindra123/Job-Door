@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Job_Seeker;
+use App\Models\UserModel;
 
 class RegistrationController extends Controller
 {
@@ -42,12 +43,18 @@ class RegistrationController extends Controller
 
         $js->fname = $req->fname;
         $js->lname = $req->lname;
-        $js->uname = $req->uname;
-        $js->mail = $req->mail;
-        $js->pass = $req->password;
         $js->current_occupation = $req->curr_occup;
 
         $js->save();
+
+        $u = new UserModel();
+        $u->uname = $req->uname;
+        $u->pass = $req->password;
+        $u->mail = $req->mail;
+        $u->status = 'ACTIVE';
+        $u->role = 'JOB SEEKER';
+        $u->profile_id = $js->id;
+        $u->save();
         return view('login')->with('msg', 'Registered successfully');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job_Seeker;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -15,9 +16,10 @@ class LoginController extends Controller
     function signIn(Request $req)
     {
 
-        $js = new Job_Seeker();
-        $login = $js->where('uname', $req->unmail)->where('pass', $req->pass)->first();
-        $loginWithMail = $js->where('mail', $req->unmail)->where('pass', $req->pass)->first();
+        //$js = new Job_Seeker();
+        $u = new UserModel();
+        $login = $u->where('uname', $req->unmail)->where('pass', $req->pass)->first();
+        $loginWithMail = $u->where('mail', $req->unmail)->where('pass', $req->pass)->first();
         if (!empty($login)) {
             session()->put("uid", $login->id);
             return redirect()->to('/dashboard');

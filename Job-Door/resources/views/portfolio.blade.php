@@ -85,6 +85,68 @@ Portfolio
 
 
             </div>
+            <div class="container p-3 mb-3 border border-primary">
+                <div class="row mx-auto align-items-center">
+                    <div class="col-sm-8">
+                        <h3 class="mb-3 mt-3">My Services</h3>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="services" class="btn btn-sm btn-primary">Add New</a>
+                    </div>
+
+                </div>
+
+
+                <div class="row align-items-top">
+                    @if(isset($s_list))
+                    @foreach($s_list as $s)
+                    <div class="col-auto m-3" style="width: 20rem; height:auto;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-3">{{$s->service_title}}</h4>
+                                <h6 class="card-subtitle mb-1"><strong>Service Description</strong></h6>
+                                <p class="card-text">{{$s->service_description}}</p>
+                                <a href="/updateServices-{{$s->id}}" class="btn btn-sm btn-info">Update</a>
+                                <a href="/deleteServices-{{$s->id}}" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    @endif
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="container p-3 mb-3 border border-primary">
+                <h4 class="mb-3 mt-3">My CV</h4>
+
+                @if(isset($cv_path))
+                <div class="container border border-primary mb-3 p-3">
+                    <div class="row align-items-center">
+
+                        <div class="col-sm-2">
+                            <a href="cvDownload" class="btn btn-sm btn-danger">Download</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="cvDelete" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="cvUpdate" class="btn btn-sm btn-info">Update</a>
+                        </div>
+                    </div>
+                </div>
+                @else
+                <div class="row mt-4 mb-3">
+                    <div class="col-sm-4">
+                        <a href="cvUpload" class="btn btn-sm btn-info">Upload CV</a>
+                    </div>
+                </div>
+                @endif
+            </div>
             <div class="container ">
                 <div class="row row-cols-2">
                     <div class="col-sm-2"><button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">Delete Portfolio</button></div>
