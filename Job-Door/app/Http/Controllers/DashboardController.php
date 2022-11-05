@@ -32,7 +32,7 @@ class DashboardController extends Controller
         if (session()->has("uid")) {
             $name = session()->get('uid');
             $user = $u->where('id', $name)->first();
-            return view('dashboard')->with('un', $user->uname);
+            return view('jpdashboard')->with('un', $user->uname);
         }
     }
 }

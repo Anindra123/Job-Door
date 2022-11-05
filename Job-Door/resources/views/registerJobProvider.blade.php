@@ -75,12 +75,8 @@ Job_Provider Registration
                         <option value="" selected>Select an occupation</option>
                         <option value="hr">HR</option>
                         <option value="manager">Manager</option>
-                        <option value="business_analyst">Busssiness Analyst</option>
                         <option value="CTO">CTO</option>
-                        <option value="developper">Developer</option>
-                        <option value="software">Software tester</option>
-                        <option value="securitymanager">Security Manager</option>
-                        <option value="assistence">Assistant</option>
+                        <option value="recruit">Recruiter</option>
                     </select>
                     @if($errors->has('work_position'))
                     <span class="text text-danger">

@@ -27,21 +27,24 @@ class JobVacencyValidation extends FormRequest
             'jtitle' => 'required|max:20',
             'jtype' => 'required',
             'jdesc' => 'required|max:500',
-            'salary' => 'required|digits_between:5000,1000000',
+            'salary' => 'required|alpha_dash',
             'addr' => 'required|max:200',
             'jltype' => 'required',
-            'vcount' => 'integer|required|digit:3',
+            'vcount' => 'integer|required|between:1,100',
+            'cname' => 'required|max:50',
         ];
     }
     public function messages()
     {
         return [
-
+            'required' => 'This feild is required',
             'jtitle.max' => 'Title can be maximum of 200 character',
             'jdesc.max' => 'Job description can be maximum 500 characters',
-            'salary.digits_between' => 'Salary can be minimum BDT 5000 and max BDT 1000000',
-            'addr' => 'Address can be maximum of 200 characters',
-            'vcount' => 'Vacency must be a nymber and can have 3 digts max',
+            'salary.alpha_dash' => 'Salary can be digits, text or dashes and underscores',
+            'addr.max' => 'Address can be maximum of 200 characters',
+            'vcount.integer' => 'Vacency must be a number',
+            'vcount.between' => 'Vacency can have 3 digts max',
+            'cname' => 'Company Name must be of max 50 characters'
         ];
     }
 }

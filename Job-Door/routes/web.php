@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JobVacencyController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
@@ -37,17 +38,23 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::post('/register', [RegistrationController::class, 'signUp']);
     Route::get('/login', [LoginController::class, 'getForm']);
     Route::post('/login', [LoginController::class, 'signIn']);
-
     Route::get('/', function () {
         return view('welcome');
     });
     Route::get('/login', [LoginController::class, 'getForm']);
 });
-
+/**
+    Grouping similar routes with middleware makes code cleaner
+    
+    handle roles : use to redirect to specific dashboard based on roles
+    
+ */
 Route::group(['middleware' => ['preventBackLogout', 'checkLogout', 'handleRoles']], function () {
 
     Route::post('/login', [LoginController::class, 'signIn']);
 });
+
+
 
 /**
     This middleware is handled seperately as it is logging out it
@@ -115,4 +122,13 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
 });
 Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () {
     Route::get('/jpdashboard', [DashboardController::class, 'showJobProvider']);
+    Route::get('/showJobProviderProfile', [ProfileController::class, 'showJobProviderProfile']);
+    Route::get('/deleteJobProviderProfile', [DashboardController::class, 'deleteJobProvider']);
+    Route::get('/updateJobProviderProfile', [DashboardController::class, 'updateJobProvider']);
+    Route::get('/vacency', [JobVacencyController::class, 'get']);
+    Route::get('/jobvacencyCreate', [JobVacencyController::class, 'showForm']);
+    Route::post('/jobvacencyCreate', [JobVacencyController::class, 'submitForm']);
+    Route::get('/jobvacency-{id}', [JobVacencyController::class, 'deletePost']);
+    Route::get('/jobvacencyUpdate-{id}', [JobVacencyController::class, 'showUpdateForm']);
+    Route::post('/jobvacencyUpdate-{id}', [JobVacencyController::class, 'updatePost']);
 });

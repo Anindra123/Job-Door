@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CVModel;
 use App\Models\Job_Seeker;
+use App\Models\JobProvider;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,9 +23,19 @@ class ProfileController extends Controller
             $details = $js->where('id', $user->profile_id)->first();
             return view('profile')->with('up', $user)->with('ud', $details);
         }
-        //  else {
-        //     return view('login')->with('err', 'User is not validated. Try again');
-        // }
+    }
+
+    function showJobProviderProfile()
+    {
+        $js = new JobProvider();
+        $u = new UserModel();
+
+        if (session()->has("uid")) {
+            $name = session()->get('uid');
+            $user = $u->where('id', $name)->first();
+            $details = $js->where('id', $user->profile_id)->first();
+            return view('jobProviderProfile')->with('up', $user)->with('ud', $details);
+        }
     }
 
     function updateProfile()

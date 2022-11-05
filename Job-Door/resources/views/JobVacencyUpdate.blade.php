@@ -1,20 +1,26 @@
 @extends('layout.jpDashboardLayout')
 
 @section('title')
-Create Job Vacency Post
+Update Job Vacency Post
 @endsection
 
 @section('content')
+@if(isset($sucess))
+<div class="alert alert-dismissible alert-success">
+    <span>{{$sucess}}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
 <div class="container">
 
     <div class="row">
         <form action="" method="post" class="shadow-lg p-5 m-3 bg-white" novalidate>
             {{@csrf_field()}}
             <fieldset>
-                <legend>Create Job Vacency Post</legend>
+                <legend>Update Job Vacency Post</legend>
                 <div class="form-group mb-3">
                     <label for="jtitle" class="form-label">Job Title:</label>
-                    <input type="text" class="form-control" name="jtitle" id="jtitle" value="{{$val->jtitle ?? old('jtitle')}}">
+                    <input type="text" class="form-control" name="jtitle" id="jtitle" value="{{$val->job_title ?? old('jtitle')}}">
                     @if($errors->has('jtitle'))
                     <span class="text text-danger">
                         <strong> {{$errors->first('jtitle')}}</strong>
@@ -23,7 +29,7 @@ Create Job Vacency Post
                 </div>
                 <div class="form-group mb-3">
                     <label for="jtitle" class="form-label">Company Name:</label>
-                    <input type="text" class="form-control" name="cname" id="cname" value="{{$val->cname ?? old('cname')}}">
+                    <input type="text" class="form-control" name="cname" id="cname" value="{{$val->company_name ?? old('cname')}}">
                     @if($errors->has('cname'))
                     <span class="text text-danger">
                         <strong> {{$errors->first('cname')}}</strong>
@@ -45,7 +51,7 @@ Create Job Vacency Post
                 </div>
                 <div class="form-group mb-3">
                     <label for="jdesc" class="form-label">Job Description :</label>
-                    <textarea name="jdesc" class="form-control" id="jdesc" cols="30" rows="50">{{$val->jdesc ?? old('jdesc')}}</textarea>
+                    <textarea name="jdesc" class="form-control" id="jdesc" cols="30" rows="50">{{$val->job_description ?? old('jdesc')}}</textarea>
                     @if($errors->has('jdesc'))
                     <span class=" text text-danger">
                         <strong>{{$errors->first('jdesc')}}</strong>
@@ -63,7 +69,7 @@ Create Job Vacency Post
                 </div>
                 <div class="form-group mb-3">
                     <label for="addr" class="form-label">Address :</label>
-                    <textarea name="addr" class="form-control" id="addr" cols="30" rows="50">{{$val->addr ?? old('addr')}}</textarea>
+                    <textarea name="addr" class="form-control" id="addr" cols="30" rows="50">{{$val->address ?? old('addr')}}</textarea>
                     @if($errors->has('addr'))
                     <span class=" text text-danger">
                         <strong>{{$errors->first('addr')}}</strong>
@@ -86,7 +92,7 @@ Create Job Vacency Post
                 </div>
                 <div class="form-group mb-3">
                     <label for="vcount" class="form-label">Vacency Count:</label>
-                    <input type="number" class="form-control" name="vcount" id="vcount" value="{{$val->vcount ?? old('vcount')}}">
+                    <input type="text" class="form-control" name="vcount" id="vcount" value="{{$val->vacency_count ?? old('vcount')}}">
                     @if($errors->has('vcount'))
                     <span class="text text-danger">
                         <strong> {{$errors->first('vcount')}}</strong>
@@ -95,7 +101,7 @@ Create Job Vacency Post
                 </div>
             </fieldset>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="profile" class="btn btn-primary">Go Back</a>
+            <a href="jobvacency" class="btn btn-primary">Go Back</a>
         </form>
 
     </div>
