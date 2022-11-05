@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterJobProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Job_Seeker;
+use App\Models\JobProvider;
 use App\Models\UserModel;
 
 class RegistrationController extends Controller
@@ -13,6 +15,11 @@ class RegistrationController extends Controller
     function getForm()
     {
         return view('registration');
+    }
+
+    function getJobProviderForm()
+    {
+        return view('registerJobProvider');
     }
 
     function signUp(Request $req)
@@ -55,6 +62,31 @@ class RegistrationController extends Controller
         $u->role = 'JOB SEEKER';
         $u->profile_id = $js->id;
         $u->save();
+        return view('login')->with('msg', 'Registered successfully');
+    }
+
+
+    function signUpJobProvider(RegisterJobProvider $req)
+    {
+        $res = $req->validated();
+
+        $jobProvider = new JobProvider();
+
+        $jobProvider->fname = $res['fname'];
+        $jobProvider->lname = $res['lname'];
+        $jobProvider->work_position = $res['work_position'];
+
+        $jobProvider->save();
+
+        $u = new UserModel();
+        $u->uname = $res['uname'];
+        $u->pass = $res['password'];
+        $u->mail = $res['mail'];
+        $u->status = 'ACTIVE';
+        $u->role = 'JOB PROVIDER';
+        $u->profile_id = $jobProvider->id;
+        $u->save();
+
         return view('login')->with('msg', 'Registered successfully');
     }
 }

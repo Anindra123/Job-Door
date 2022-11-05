@@ -81,7 +81,7 @@ class ProfileController extends Controller
         $uid = session()->get('uid');
         $user = $u->where('id', $uid)->first();
         $js->where('id', $user->profile_id)->delete();
-
+        $user->delete();
         return redirect('logout');
     }
 }

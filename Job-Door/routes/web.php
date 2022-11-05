@@ -41,6 +41,12 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::get('/', function () {
         return view('welcome');
     });
+    Route::get('/login', [LoginController::class, 'getForm']);
+});
+
+Route::group(['middleware' => ['preventBackLogout', 'checkLogout', 'handleRoles']], function () {
+
+    Route::post('/login', [LoginController::class, 'signIn']);
 });
 
 /**
@@ -59,6 +65,8 @@ Route::get('/logout', [LoginController::class, 'logOut'])
 
     checkLogin : check whether user has session
  */
+
+//Job seeker routes
 Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show']);
     Route::get('/profile', [ProfileController::class, 'show']);
@@ -92,4 +100,19 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () 
     Route::get('/cvUpdate', [CVController::class, 'updateFileForm']);
     Route::post('/cvUpdate', [CVController::class, 'updateFile']);
     Route::get('/deleteProfile', [ProfileController::class, 'deleteProfile']);
+});
+
+//Admin routes
+Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () {
+    Route::get('/adminDashboard', [DashboardController::class, 'showAdmin']);
+});
+
+
+//Job Provider Routes
+Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function () {
+    Route::get('/signUpJp', [RegistrationController::class, 'getJobProviderForm']);
+    Route::post('/signUpJp', [RegistrationController::class, 'signUpJobProvider']);
+});
+Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () {
+    Route::get('/jpdashboard', [DashboardController::class, 'showJobProvider']);
 });

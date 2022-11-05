@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'checkLogout' => \App\Http\Middleware\CheckLogout::class,
         'preventBackLogout' => \App\Http\Middleware\preventBackLogout::class,
         'handleRoute' => \App\Http\Middleware\HandleRouteParameter::class,
+        'handleRoles' => \App\Http\Middleware\VerifyRoles::class
     ];
 }

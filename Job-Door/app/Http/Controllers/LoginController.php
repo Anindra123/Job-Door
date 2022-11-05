@@ -13,22 +13,43 @@ class LoginController extends Controller
         return view('login');
     }
 
-    function signIn(Request $req)
+    function signIn()
     {
 
         //$js = new Job_Seeker();
-        $u = new UserModel();
-        $login = $u->where('uname', $req->unmail)->where('pass', $req->pass)->first();
-        $loginWithMail = $u->where('mail', $req->unmail)->where('pass', $req->pass)->first();
-        if (!empty($login)) {
-            session()->put("uid", $login->id);
-            return redirect()->to('/dashboard');
-        } else if (!empty($loginWithMail)) {
-            session()->put("uid", $loginWithMail->id);
-            return redirect()->to('/dashboard');
-        } else {
-            return view('login')->with('err', 'User or not found or Invalid credentials. Please try again');
-        }
+        // $u = new UserModel();
+        // $login = $u->where('uname', $req->unmail)->where('pass', $req->pass)->first();
+        // $loginWithMail = $u->where('mail', $req->unmail)->where('pass', $req->pass)->first();
+        // if (!empty($login)) {
+        //     if ($login->role === "ADMIN") {
+        //         session()->put("uid", $login->id);
+        //         return redirect()->to('/adminDashboard');
+        //     }
+        //     if ($login->role === "JOB SEEKER") {
+        //         session()->put("uid", $login->id);
+        //         return redirect()->to('/dashboard');
+        //     }
+        //     if ($login->role === "JOB PROVIDER") {
+        //         session()->put("uid", $login->id);
+        //         return redirect()->to('/jpdashboard');
+        //     }
+        // } else if (!empty($loginWithMail)) {
+        //     if ($loginWithMail->role === "ADMIN") {
+        //         session()->put("uid", $loginWithMail->id);
+        //         return redirect()->to('/adminDashboard');
+        //     }
+        //     if ($loginWithMail->role === "JOB SEEKER") {
+        //         session()->put("uid", $loginWithMail->id);
+        //         return redirect()->to('/dashboard');
+        //     }
+        //     if ($loginWithMail->role === "JOB PROVIDER") {
+        //         session()->put("uid", $loginWithMail->id);
+        //         return redirect()->to('/jpdashboard');
+        //     }
+        // } else {
+
+        // }
+        return view('login')->with('err', 'User or not found or Invalid credentials. Please try again');
     }
 
     function logOut()

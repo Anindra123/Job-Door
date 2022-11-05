@@ -22,7 +22,10 @@
                 <ul class="navbar-nav ms-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="register">Register</a>
+                        <a class="nav-link" href="register">Register Job Seeker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="signUpJp">Register Job Provider</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
