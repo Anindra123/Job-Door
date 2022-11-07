@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -62,7 +63,7 @@
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action">Find Job Vacency</a>
+                                    <a href="getVacency" class="list-group-item list-group-item-action">Find Job Vacency</a>
                                     <a href="#" class="list-group-item list-group-item-action">Applied Jobs</a>
                                 </div>
                             </div>
@@ -78,7 +79,7 @@
                             <div class="accordion-body">
                                 <div class="list-group">
                                     <a href="#" class="list-group-item list-group-item-action">Interview History</a>
-                                    <a href="#" class="list-group-item list-group-item-action">Current Interview Process</a>
+                                    <a href="showInterview" class=" list-group-item list-group-item-action">Current Interview Process</a>
 
                                 </div>
                             </div>

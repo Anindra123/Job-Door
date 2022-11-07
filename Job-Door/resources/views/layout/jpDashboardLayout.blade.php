@@ -64,7 +64,7 @@
                             <div class="accordion-body">
                                 <div class="list-group">
                                     <a href="vacency" class="list-group-item list-group-item-action">Post Job Vacency</a>
-                                    <a href="#" class="list-group-item list-group-item-action">Manage candidates</a>
+                                    <a href="manageCandidate" class="list-group-item list-group-item-action">Manage candidates</a>
                                 </div>
                             </div>
                         </div>
@@ -81,8 +81,10 @@
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="list-group">
-                                    <a href="portfolio" class="list-group-item list-group-item-action">Interview Proposal</a>
+                                    <a href="showInterviewProposal" class="list-group-item list-group-item-action">Interview Proposal</a>
                                     <a href="portfolio" class="list-group-item list-group-item-action">Interviewer List</a>
+                                    <a href="viewTechnicalFormDetails" class="list-group-item list-group-item-action">Approve Interview Process</a>
+                                    <a href="manageSubmission" class="list-group-item list-group-item-action">Approve Interview Candidate</a>
                                 </div>
                             </div>
                         </div>

@@ -47,9 +47,9 @@
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="list-group">
-                                    <a href="portfolio" class="list-group-item list-group-item-action">Create Interview Process</a>
+                                    <a href="/showTechnical" class="list-group-item list-group-item-action">Create Interview Process</a>
                                     <a href="portfolio" class="list-group-item list-group-item-action">Monitor Current Process</a>
-                                    <a href="portfolio" class="list-group-item list-group-item-action">Interview Proposal</a>
+                                    <a href="/proposalListView" class="list-group-item list-group-item-action">Interview Proposal</a>
                                 </div>
                             </div>
                         </div>

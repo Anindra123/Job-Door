@@ -68,6 +68,9 @@ class Kernel extends HttpKernel
         'checkLogout' => \App\Http\Middleware\CheckLogout::class,
         'preventBackLogout' => \App\Http\Middleware\preventBackLogout::class,
         'handleRoute' => \App\Http\Middleware\HandleRouteParameter::class,
-        'handleRoles' => \App\Http\Middleware\VerifyRoles::class
+        'handleRoles' => \App\Http\Middleware\VerifyRoles::class,
+        'jobSeekerRule' => \App\Http\Middleware\jobSeekerRules::class,
+        'jobProviderRule' => \App\Http\Middleware\jobProviderRules::class,
+        'adminRule' => \App\Http\Middleware\adminRules::class,
     ];
 }

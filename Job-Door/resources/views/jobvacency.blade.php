@@ -15,7 +15,7 @@ Job Vacency
     @foreach($job as $j)
     <div class="row">
         <div class="col-auto m-3">
-            <div class="card">
+            <div class="card" style="width:50rem;">
                 <div class="card-body">
                     <h4 class="card-title mb-4">{{$j->job_title}}</h4>
                     <h6 class="card-subtitle mb-1"><strong>Job Description</strong></h6>

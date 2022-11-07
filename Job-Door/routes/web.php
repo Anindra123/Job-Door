@@ -2,14 +2,17 @@
 
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InterviewProcessController;
 use App\Http\Controllers\JobVacencyController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SkillsController;
 use App\Http\Controllers\WorkExpController;
+use App\Models\InterviewProposal;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,7 +77,7 @@ Route::get('/logout', [LoginController::class, 'logOut'])
  */
 
 //Job seeker routes
-Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () {
+Route::group(['middleware' => ['preventBackLogout', 'checkLogin', 'jobSeekerRule']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show']);
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::get('/updateprofile', [ProfileController::class, 'updateProfile']);
@@ -107,11 +110,26 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () 
     Route::get('/cvUpdate', [CVController::class, 'updateFileForm']);
     Route::post('/cvUpdate', [CVController::class, 'updateFile']);
     Route::get('/deleteProfile', [ProfileController::class, 'deleteProfile']);
+    Route::get('/findVacency', [JobVacencyController::class, 'getCandidateJobPost']);
+    Route::get('/getVacency', [JobVacencyController::class, 'showCandidateJobPost']);
+    Route::get('/applyJob-{id}', [JobVacencyController::class, 'applyVacantJob']);
+    Route::get('/declineJob-{id}', [JobVacencyController::class, 'declineVacantJob']);
+    Route::get('/showInterview', [InterviewProcessController::class, 'getAssessment']);
+    Route::post('/submitAnswer', [InterviewProcessController::class, 'submitAssesment']);
 });
 
 //Admin routes
-Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () {
+Route::group(['middleware' => ['preventBackLogout', 'checkLogin', 'adminRule']], function () {
     Route::get('/adminDashboard', [DashboardController::class, 'showAdmin']);
+    Route::get('/showTechnical', [InterviewProcessController::class, 'showMenu']);
+    Route::get('/createTechnicalForm-{id}', [InterviewProcessController::class, 'viewTechnicalInterviewForm']);
+    Route::post('/createTechnicalForm-{id}', [InterviewProcessController::class, 'submitTechnicalInterviewForm']);
+    Route::get('/updateTechnicalForm-{id}', [InterviewProcessController::class, 'updateTechnicalInterviewFormView']);
+    Route::post('/updateTechnicalForm-{id}', [InterviewProcessController::class, 'updateTechnicalInterviewForm']);
+    Route::get('/deleteTechnical-{id}', [InterviewProcessController::class, 'deleteTechnicalForm']);
+    Route::get('/startInterView-{id}', [InterviewProcessController::class, 'startProcess']);
+    Route::get('/proposalListView', [ProposalController::class, 'fullProposalView']);
+    Route::get('/viewProposal-{id}', [ProposalController::class, 'viewProposal']);
 });
 
 
@@ -120,7 +138,7 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::get('/signUpJp', [RegistrationController::class, 'getJobProviderForm']);
     Route::post('/signUpJp', [RegistrationController::class, 'signUpJobProvider']);
 });
-Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () {
+Route::group(['middleware' => ['preventBackLogout', 'checkLogin', 'jobProviderRule']], function () {
     Route::get('/jpdashboard', [DashboardController::class, 'showJobProvider']);
     Route::get('/showJobProviderProfile', [ProfileController::class, 'showJobProviderProfile']);
     Route::get('/deleteJobProviderProfile', [DashboardController::class, 'deleteJobProvider']);
@@ -131,4 +149,20 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogin']], function () 
     Route::get('/jobvacency-{id}', [JobVacencyController::class, 'deletePost']);
     Route::get('/jobvacencyUpdate-{id}', [JobVacencyController::class, 'showUpdateForm']);
     Route::post('/jobvacencyUpdate-{id}', [JobVacencyController::class, 'updatePost']);
+    Route::get('/manageCandidate', [JobVacencyController::class, 'manageCandidateList']);
+    Route::get('/viewPortfolio-{id}', [JobVacencyController::class, 'viewCandidatePortfolio']);
+    Route::get('/acceptCandidate-{id}', [JobVacencyController::class, 'acceptCandidateReq']);
+    Route::get('/rejectCandidate-{id}', [JobVacencyController::class, 'rejectCandidateReq']);
+    Route::get('/showInterviewProposal', [ProposalController::class, 'showProposal']);
+    Route::get('/createInterviewProposal-{jvid}', [ProposalController::class, 'getForm']);
+    Route::post('/createInterviewProposal-{jvid}', [ProposalController::class, 'submitForm']);
+    Route::get('/updateInterviewProposal', [ProposalController::class, 'updateFormShow']);
+    Route::post('/updateInterviewProposal', [ProposalController::class, 'updateForm']);
+    Route::get('/deleteProposal', [ProposalController::class, 'deleteInterviewProposal']);
+    Route::get('/approveTechnicalForm-{id}', [InterviewProcessController::class, 'approveProcess']);
+    Route::get('/declineTechnical-{id}', [InterviewProcessController::class, 'declineProcess']);
+    Route::get('/viewTechnicalFormDetails', [InterviewProcessController::class, 'viewTechnicalInterviewJP']);
+    Route::get('/manageSubmission', [InterviewProcessController::class, 'showSubmissionList']);
+    Route::get('/hireCandidate-{id}', [InterviewProcessController::class, 'hireInterviewCandidate']);
+    Route::get('/rejectCandidate-{id}', [InterviewProcessController::class, 'rejectInterviewCandidate']);
 });
