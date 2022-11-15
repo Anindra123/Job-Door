@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JobVacencyValidation;
 use App\Models\CVModel;
 use App\Models\Job_Seeker;
+use App\Models\job_seeker_feedback;
 use App\Models\Job_Vacency_Candidate;
 use App\Models\JobProvider;
 use App\Models\JobVacency;
@@ -255,7 +256,12 @@ class JobVacencyController extends Controller
         $post->status = "ACCEPTED";
 
         $post->save();
+        $feedback = new job_seeker_feedback();
 
+        $feedback->job_seeker_id = $post->candidate_id;
+        $feedback->phase = 'Screening Phase';
+        $feedback->status = 'ACCEPTED';
+        $feedback->save();
         return redirect('manageCandidate');
     }
 
@@ -264,11 +270,19 @@ class JobVacencyController extends Controller
         $jvc = new Job_Vacency_Candidate();
 
         $post = $jvc->where('id', $id)->first();
-
+        $jv = new JobVacency();
         $post->status = "REJECTED";
-
         $post->save();
+        $job = $jv->where('id', $post->job_post_id)->first();
+        $job->vacency_count = $job->vacency_count + 1;
+        $job->save();
+        $feedback = new job_seeker_feedback();
 
+        $feedback->job_seeker_id = $post->candidate_id;
+        $feedback->phase = 'Technical Interview';
+        $feedback->status = 'REJECTED';
+        $feedback->feedback = "Need to improve technical skills";
+        $feedback->save();
         return redirect('manageCandidate');
     }
 }

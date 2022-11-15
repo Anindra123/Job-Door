@@ -41,9 +41,7 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::post('/register', [RegistrationController::class, 'signUp']);
     Route::get('/login', [LoginController::class, 'getForm']);
     Route::post('/login', [LoginController::class, 'signIn']);
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', [LoginController::class, 'getForm']);
     Route::get('/login', [LoginController::class, 'getForm']);
 });
 /**
@@ -164,5 +162,5 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogin', 'jobProviderRu
     Route::get('/viewTechnicalFormDetails', [InterviewProcessController::class, 'viewTechnicalInterviewJP']);
     Route::get('/manageSubmission', [InterviewProcessController::class, 'showSubmissionList']);
     Route::get('/hireCandidate-{id}', [InterviewProcessController::class, 'hireInterviewCandidate']);
-    Route::get('/rejectCandidate-{id}', [InterviewProcessController::class, 'rejectInterviewCandidate']);
+    Route::get('/reject-{id}', [InterviewProcessController::class, 'rejectInterviewCandidate']);
 });

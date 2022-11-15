@@ -40,7 +40,7 @@ Manage Candidate Submission
                                 Hire
                             </a>
 
-                            <a href="/rejectCandidate-{{$c['id']}}" class="btn btn-sm btn-danger">
+                            <a href="/reject-{id}" class="btn btn-sm btn-danger">
                                 Reject
                             </a>
                         </td>
