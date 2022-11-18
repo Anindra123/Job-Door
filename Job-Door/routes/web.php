@@ -136,6 +136,7 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::get('/signUpJp', [RegistrationController::class, 'getJobProviderForm']);
     Route::post('/signUpJp', [RegistrationController::class, 'signUpJobProvider']);
 });
+
 Route::group(['middleware' => ['preventBackLogout', 'checkLogin', 'jobProviderRule']], function () {
     Route::get('/jpdashboard', [DashboardController::class, 'showJobProvider']);
     Route::get('/showJobProviderProfile', [ProfileController::class, 'showJobProviderProfile']);
