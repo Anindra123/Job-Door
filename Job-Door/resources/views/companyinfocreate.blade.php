@@ -1,0 +1,86 @@
+@extends('layout.jpDashboardLayout')
+
+@section('title')
+Create Company iformation
+@endsection
+
+@section('content')
+<div class="container">
+
+    <div class="row">
+        <form action="" method="post" class="shadow-lg p-5 m-3 bg-white" novalidate>
+            {{@csrf_field()}}
+            <fieldset>
+                <legend>Create Company Information Desk</legend>
+                <div class="form-group mb-3">
+                    <label for="ctittle" class="form-label">Company Name:</label>
+                    <input type="text" class="form-control" name="cname" id="cname" value="{{$val->cname ?? old('cname')}}">
+                    @if($errors->has('cname'))
+                    <span class="text text-danger">
+                        <strong> {{$errors->first('cname')}}</strong>
+                    </span>
+                    @endif
+                </div>
+                <div class="form-group mb-3">
+                    <label for="cemail" class="form-label">Company Email:</label>
+                    <input type="text" class="form-control" name="cemail" id="cemail" value="{{$val->cemail ?? old('cemail')}}">
+                    @if($errors->has('cemail'))
+                    <span class="text text-danger">
+                        <strong> {{$errors->first('cemail')}}</strong>
+                    </span>
+                    @endif
+                </div>
+
+
+                <div class="form-group mb-3">
+                    <label for="caddress" class="form-label">Company Address:</label>
+                    <input type="text" class="form-control" name="caddress" id="caddress" value="{{$val->caddress ?? old('caddress')}}">
+                    @if($errors->has('caddress'))
+                    <span class="text text-danger">
+                        <strong> {{$errors->first('caddress')}}</strong>
+                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="cwebsite" class="form-label">Company Website:</label>
+                    <input type="text" class="form-control" name="cwebsite" id="cwebsite" value="{{$val->cwebsite ?? old('cwebsite')}}">
+                    @if($errors->has('cwebsite'))
+                    <span class="text text-danger">
+                        <strong> {{$errors->first('cwebsite')}}</strong>
+                    </span>
+                    @endif
+                </div>
+
+
+                <div class="form-group mb-3">
+                    <label for="cfbpage" class="form-label">Company Facebookpage:</label>
+                    <input type="text" class="form-control" name="cfbpage" id="cfbpage" value="{{$val->cfbpage ?? old('cfbpage')}}">
+                    @if($errors->has('cfbpage'))
+                    <span class="text text-danger">
+                        <strong> {{$errors->first('cfbpage')}}</strong>
+                    </span>
+                    @endif
+                </div>
+                <div class="form-group mb-3">
+                    <label for="cservice" class="form-label">Company Service :</label>
+                    <textarea name="cservice" class="form-control" id="address" cols="30" rows="50">{{$val->cservice ?? old('cservice')}}</textarea>
+                    @if($errors->has('cservice'))
+                    <span class="text text-danger">
+                        <strong>{{$errors->first('cservice')}}</strong>
+                    </span>
+                    @endif
+
+
+
+
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="profile" class="btn btn-primary">Go Back</a>
+        </form>
+
+    </div>
+</div>
+
+
+@endsection
