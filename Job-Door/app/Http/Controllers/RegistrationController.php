@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterJobProvider;
+use App\Mail\VerifyMailEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Job_Seeker;
 use App\Models\JobProvider;
+use App\Models\User;
 use App\Models\UserModel;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class RegistrationController extends Controller
 {
@@ -70,23 +75,37 @@ class RegistrationController extends Controller
     {
         $res = $req->validated();
 
-        $jobProvider = new JobProvider();
+        // $user = new User();
 
-        $jobProvider->fname = $res['fname'];
-        $jobProvider->lname = $res['lname'];
-        $jobProvider->work_position = $res['work_position'];
+        // $user->name = $res['uname'];
+        // $user->email = $res['mail'];
+        // $user->password = $res['password'];
+        // $user->save();
 
-        $jobProvider->save();
+        $user = User::create([
+            'name' => $res['uname'],
+            'email' => $res['mail'],
+            'password' => Hash::make($res['password']),
+        ]);
+        event(new Registered($user));
 
-        $u = new UserModel();
-        $u->uname = $res['uname'];
-        $u->pass = $res['password'];
-        $u->mail = $res['mail'];
-        $u->status = 'ACTIVE';
-        $u->role = 'JOB PROVIDER';
-        $u->profile_id = $jobProvider->id;
-        $u->save();
+        // $jobProvider = new JobProvider();
 
-        return view('login')->with('msg', 'Registered successfully');
+        // $jobProvider->fname = $res['fname'];
+        // $jobProvider->lname = $res['lname'];
+        // $jobProvider->work_position = $res['work_position'];
+
+        // $jobProvider->save();
+
+        // $u = new UserModel();
+        // $u->uname = $res['uname'];
+        // $u->pass = $res['password'];
+        // $u->mail = $res['mail'];
+        // $u->status = 'ACTIVE';
+        // $u->role = 'JOB PROVIDER';
+        // $u->profile_id = $jobProvider->id;
+        // $u->save();
+        // Mail::send(new VerifyMailEmail());
+        return redirect('/email/verify');
     }
 }

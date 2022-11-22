@@ -1,0 +1,1 @@
+<h1>To verify registration click the following link</h1>

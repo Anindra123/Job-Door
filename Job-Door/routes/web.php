@@ -13,6 +13,9 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SkillsController;
 use App\Http\Controllers\WorkExpController;
 use App\Models\InterviewProposal;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +28,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
+
 
 
 /**
@@ -40,9 +47,21 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::get('/register', [RegistrationController::class, 'getForm']);
     Route::post('/register', [RegistrationController::class, 'signUp']);
     Route::get('/login', [LoginController::class, 'getForm']);
-    Route::post('/login', [LoginController::class, 'signIn']);
-    Route::get('/', [LoginController::class, 'getForm']);
-    Route::get('/login', [LoginController::class, 'getForm']);
+    Route::post('/login', [LoginController::class, 'signIn'])->name('login');
+    Route::get('/', [LoginController::class, 'getForm'])->name('login');
+    Route::get('/login', [LoginController::class, 'getForm'])->name('login');
+    Route::get('/email/verify', function () {
+        return view('verify-email');
+    })->middleware(['auth', 'verified'])->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $req) {
+        $req->fulfill();
+        return view('login')->with('Registered successfully');
+    })->middleware(['auth', 'signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $req) {
+        $req->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Verification link sent');
+    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
 /**
     Grouping similar routes with middleware makes code cleaner
