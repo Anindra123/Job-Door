@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InterviewProcessController;
@@ -16,6 +21,7 @@ use App\Models\InterviewProposal;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,22 +52,26 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function () {
     Route::get('/register', [RegistrationController::class, 'getForm']);
     Route::post('/register', [RegistrationController::class, 'signUp']);
-    Route::get('/login', [LoginController::class, 'getForm']);
-    Route::post('/login', [LoginController::class, 'signIn'])->name('login');
     Route::get('/', [LoginController::class, 'getForm'])->name('login');
     Route::get('/login', [LoginController::class, 'getForm'])->name('login');
-    Route::get('/email/verify', function () {
-        return view('verify-email');
-    })->middleware(['auth', 'verified'])->name('verification.notice');
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $req) {
-        $req->fulfill();
-        return view('login')->with('Registered successfully');
-    })->middleware(['auth', 'signed'])->name('verification.verify');
+});
 
-    Route::post('/email/verification-notification', function (Request $req) {
-        $req->user()->sendEmailVerificationNotification();
-        return back()->with('message', 'Verification link sent');
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+Route::middleware('auth')->group(function () {
+    Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
+        ->name('verification.notice');
+
+    Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
+        ->name('password.confirm');
+
+    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 });
 /**
     Grouping similar routes with middleware makes code cleaner
@@ -71,7 +81,7 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
  */
 Route::group(['middleware' => ['preventBackLogout', 'checkLogout', 'handleRoles']], function () {
 
-    Route::post('/login', [LoginController::class, 'signIn']);
+    Route::post('/login', [LoginController::class, 'signIn'])->name('login');
 });
 
 

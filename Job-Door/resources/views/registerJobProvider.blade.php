@@ -34,20 +34,20 @@ Job_Provider Registration
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="uname" class="form-label">User Name :</label>
-                    <input type="text" class="form-control" name="uname" id="uname" value="{{old('uname')}}">
-                    @if($errors->has('uname'))
+                    <label for="name" class="form-label">User Name :</label>
+                    <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}">
+                    @if($errors->has('name'))
                     <span class=" text text-danger">
-                        <strong>{{$errors->first('uname')}}</strong>
+                        <strong>{{$errors->first('name')}}</strong>
                     </span>
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="mail" class="form-label">Email :</label>
-                    <input type="email" class="form-control" name="mail" id="mail" value="{{old('mail')}}">
-                    @if($errors->has('mail'))
+                    <label for="email" class="form-label">Email :</label>
+                    <input type="email" class="form-control" name="email" id="mail" value="{{old('email')}}">
+                    @if($errors->has('email'))
                     <span class=" text text-danger">
-                        <strong>{{$errors->first('mail')}}</strong>
+                        <strong>{{$errors->first('email')}}</strong>
                     </span>
                     @endif
                 </div>

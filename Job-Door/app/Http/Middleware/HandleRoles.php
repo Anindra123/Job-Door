@@ -18,7 +18,6 @@ class HandleRoles
     public function handle(Request $request, Closure $next)
     {
         $u = new UserModel();
-
         if (session()->exists('uid')) {
             $user = $u->where('id', session()->get('uid'))->first();
             // dd($user);

@@ -24,8 +24,8 @@ class RegisterJobProvider extends FormRequest
     public function rules()
     {
         return [
-            'fname' => 'required|max:20', 'lname' => 'required|max:20', 'uname' => 'required|max:10',
-            'mail' => 'required|max:50|email',
+            'fname' => 'required|max:20', 'lname' => 'required|max:20', 'name' => 'required|max:10|unique:users',
+            'email' => 'required|max:50|email|unique:users',
             'password' => 'required|confirmed|min:8|max:10',
             'password_confirmation' => 'required|min:8|max:10',
             'work_position' => 'required|max:100',
@@ -38,9 +38,9 @@ class RegisterJobProvider extends FormRequest
         return [
             'fname.required' => 'First name is required',
             'lname.required' => 'Last name is required',
-            'uname.required' => 'User name is required',
-            'mail.required' => "Email cannot be empty",
-            'mail.regex' => 'Not a valid email',
+            'name.required' => 'User name is required',
+            'email.required' => "Email cannot be empty",
+            'email.regex' => 'Not a valid email',
             'password.required' => "Password cannot be empty",
             'password_confirmation.required' => "Confirm password cannot be empty",
             'password.confirmed' => "Password does not match. Please enter a correct password",
@@ -49,7 +49,8 @@ class RegisterJobProvider extends FormRequest
             'password.max' => 'Password must be atleast 8 characters and max 10 characters long',
             'password_confirmation.max' => 'Password must be atleast 8 characters and max 10 characters long',
             'work_position.required' => 'Please select your current work position',
-            'work_position.max' => 'Work Position can be maximum 100 characters'
+            'work_position.max' => 'Work Position can be maximum 100 characters',
+            'unique' => 'A user with this mail or username already exists',
         ];
     }
 }
