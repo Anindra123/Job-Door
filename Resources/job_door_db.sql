@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2022 at 05:11 PM
+-- Generation Time: Nov 23, 2022 at 07:22 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -53,6 +53,26 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `interviewers_list`
+--
+
+CREATE TABLE `interviewers_list` (
+  `id` int(11) NOT NULL,
+  `uname` text NOT NULL,
+  `email` text NOT NULL,
+  `password` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `interviewers_list`
+--
+
+INSERT INTO `interviewers_list` (`id`, `uname`, `email`, `password`) VALUES
+(3, 'Joe', 'joe@mail.om', '1234');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `interviewproposal`
 --
 
@@ -93,9 +113,9 @@ CREATE TABLE `job_provider` (
 --
 
 INSERT INTO `job_provider` (`id`, `fname`, `lname`, `work_position`) VALUES
-(1, 'John', 'Doe', 'manager'),
-(2, 'Joe', 'Smith', 'hr'),
-(3, 'Supriya', 'Osman', 'hr');
+(1, 'Bivas', 'Das', 'manager'),
+(2, 'Bivas', 'Das', 'hr'),
+(3, 'Bivas', 'Das', 'hr');
 
 -- --------------------------------------------------------
 
@@ -115,10 +135,12 @@ CREATE TABLE `job_seeker` (
 --
 
 INSERT INTO `job_seeker` (`id`, `fname`, `lname`, `current_occupation`) VALUES
-(6, 'Anindra', 'Das', 'Part-time'),
-(7, 'Sue', 'Storm', 'Unemployed'),
-(8, 'Bob', 'Smith', 'Unemployed'),
-(9, 'Robin', 'Smith', 'Student');
+(1, 'Bivas', 'Das', 'Unemployed'),
+(2, 'John', 'Smith', 'Part-time'),
+(3, 'Bob', 'Smith', 'Student'),
+(4, 'Sue', 'Storm', 'Unemployed'),
+(5, 'Bivas', 'Das', 'Part-time'),
+(6, 'Bivas', 'Das', 'Unemployed');
 
 -- --------------------------------------------------------
 
@@ -133,16 +155,6 @@ CREATE TABLE `job_seeker_feedback` (
   `status` text NOT NULL,
   `feedback` mediumtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `job_seeker_feedback`
---
-
-INSERT INTO `job_seeker_feedback` (`id`, `job_seeker_id`, `phase`, `status`, `feedback`) VALUES
-(1, 6, 'Technical Interview', 'ACCEPTED', NULL),
-(2, 8, 'Technical Interview', 'REJECTED', 'Need to improve technical skills'),
-(3, 7, 'Screening Phase', 'ACCEPTED', NULL),
-(4, 9, 'Technical Interview', 'REJECTED', 'Need to improve technical skills');
 
 -- --------------------------------------------------------
 
@@ -163,15 +175,6 @@ CREATE TABLE `job_vacency` (
   `jp_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `job_vacency`
---
-
-INSERT INTO `job_vacency` (`id`, `job_title`, `company_name`, `job_type`, `job_description`, `salary`, `address`, `job_location_type`, `vacency_count`, `jp_id`) VALUES
-(3, 'Frontend Engineer', 'BrainStation 23', 'Part-time', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '30000-40000', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 'remote', 3, 1),
-(4, 'Backend Engineer', 'Brain Station 23', 'Part-time', 'hello world', 'Negotiable', 'hello world', 'remote', 3, 1),
-(5, 'Bussiness Analyst', 'Brainstation 23', 'Full-time', 'The css() method sets or returns one or more style properties for the selected elements.', '80000-90000', 'The css() method sets or returns one or more style properties for the selected elements.', 'onspot', 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -185,18 +188,6 @@ CREATE TABLE `job_vacency_candidate` (
   `provider_id` int(11) DEFAULT NULL,
   `status` tinytext NOT NULL DEFAULT 'APPLIED'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `job_vacency_candidate`
---
-
-INSERT INTO `job_vacency_candidate` (`id`, `candidate_id`, `job_post_id`, `provider_id`, `status`) VALUES
-(3, 6, 3, 1, 'ACCEPTED'),
-(5, 8, 3, 1, 'ACCEPTED'),
-(6, 7, 3, 1, 'REJECTED'),
-(7, 7, 5, 1, 'ACCEPTED'),
-(8, 9, 3, 1, 'REJECTED'),
-(9, 6, 4, 1, 'APPLIED');
 
 -- --------------------------------------------------------
 
@@ -263,16 +254,6 @@ CREATE TABLE `portfolio` (
   `js_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `portfolio`
---
-
-INSERT INTO `portfolio` (`id`, `portfolio_title`, `js_id`) VALUES
-(11, 'Bivas Portfolio', 6),
-(12, 'BOB Portfolio', 8),
-(13, 'Sue portfolio', 7),
-(14, 'robin-port', 9);
-
 -- --------------------------------------------------------
 
 --
@@ -313,14 +294,6 @@ CREATE TABLE `skills` (
   `pr_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `skills`
---
-
-INSERT INTO `skills` (`id`, `skill_list`, `pr_id`) VALUES
-(10, 'JS,CSS,PHP,HTML,FIGMA', 11),
-(11, 'AdobeXD, Figma', 12);
-
 -- --------------------------------------------------------
 
 --
@@ -340,13 +313,6 @@ CREATE TABLE `technical_interview` (
   `jv_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `technical_interview`
---
-
-INSERT INTO `technical_interview` (`id`, `title`, `description`, `date`, `stime`, `etime`, `question`, `status`, `query`, `jv_id`) VALUES
-(5, 'TI - 1', 'Please answer the question properly', '2022-11-07', '04:20', '04:40', 'How to center a div element', 'Open', NULL, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -363,44 +329,6 @@ CREATE TABLE `technical_interview_submission` (
   `feedback` longtext DEFAULT NULL,
   `status` text NOT NULL DEFAULT 'PENDING'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `technical_interview_submission`
---
-
-INSERT INTO `technical_interview_submission` (`id`, `submitter_id`, `interview_id`, `provider_id`, `submission`, `submission_time`, `feedback`, `status`) VALUES
-(4, 6, 5, 1, 'fasfasfasf', '04:30:42', NULL, 'HIRED'),
-(5, 8, 5, 1, 'ljfaslfjaklsjflaskjf', '04:34:19', NULL, 'REJECTED');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `uname` varchar(10) NOT NULL,
-  `pass` varchar(10) NOT NULL,
-  `mail` varchar(50) NOT NULL,
-  `status` varchar(10) NOT NULL,
-  `role` varchar(20) NOT NULL,
-  `profile_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `uname`, `pass`, `mail`, `status`, `role`, `profile_id`) VALUES
-(5, 'Admin', 'ADad<2020>', 'jobdoor@mail.com', 'ACTIVE', 'ADMIN', NULL),
-(6, 'Bivas', 'kiA$91171', 'bivasdas911@gmail.com', 'ACTIVE', 'JOB SEEKER', 6),
-(7, 'JD', 'JDjd<2020>', 'john@mail.com', 'ACTIVE', 'JOB PROVIDER', 1),
-(8, 'Sue', 'kiA$91171', 'dbivas27@gmail.com', 'ACTIVE', 'JOB SEEKER', 7),
-(9, 'Bob', 'kiA$91171', 'bob@mail.com', 'ACTIVE', 'JOB SEEKER', 8),
-(10, 'Robin', 'kiA$91171', 'robin@mail.com', 'ACTIVE', 'JOB SEEKER', 9),
-(11, 'Joe', 'kiA$91171', 'joe@mail.com', 'ACTIVE', 'JOB PROVIDER', 2),
-(12, 'Supriya', 'supriya12', 'supriya@gmail.com', 'ACTIVE', 'JOB PROVIDER', 3);
 
 -- --------------------------------------------------------
 
@@ -419,6 +347,37 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(5, 'Bivas', 'bivasdas911@gmail.com', '2022-11-23 15:36:19', '$2y$10$ETI0w5SjljWCHTjQ4YfX3uRoHhSjx3xtbyLtqTvZkHsoPUZP0l4WO', NULL, '2022-11-23 15:35:55', '2022-11-23 15:36:19'),
+(6, 'Savib', 'dbivas27@gmail.com', '2022-11-23 18:19:21', '$2y$10$AlB4frQaf94/bn/WNWyeCeHk2iOHDOQUEfJh/IhZlA5aOIppJsnva', NULL, '2022-11-23 18:18:20', '2022-11-23 18:19:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_status`
+--
+
+CREATE TABLE `user_status` (
+  `id` int(11) NOT NULL,
+  `uname` varchar(10) NOT NULL,
+  `mail` varchar(50) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `role` varchar(20) NOT NULL,
+  `profile_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_status`
+--
+
+INSERT INTO `user_status` (`id`, `uname`, `mail`, `status`, `role`, `profile_id`) VALUES
+(5, 'Bivas', 'bivasdas911@gmail.com', 'ACTIVE', 'JOB PROVIDER', 3),
+(6, 'Savib', 'dbivas27@gmail.com', 'ACTIVE', 'JOB SEEKER', 6);
+
 -- --------------------------------------------------------
 
 --
@@ -434,13 +393,6 @@ CREATE TABLE `work_experience` (
   `end_date` text NOT NULL,
   `pr_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `work_experience`
---
-
-INSERT INTO `work_experience` (`id`, `work_title`, `company_name`, `work_description`, `start_date`, `end_date`, `pr_id`) VALUES
-(5, 'Forentend Developer', 'Therap', 'I just wanted to note, for anyone getting a null reference exception using JQuery\'s event.target.id', '10-09-2020', '11-08-2021', 11);
 
 --
 -- Indexes for dumped tables
@@ -459,6 +411,12 @@ ALTER TABLE `cv`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `interviewers_list`
+--
+ALTER TABLE `interviewers_list`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `interviewproposal`
@@ -564,18 +522,18 @@ ALTER TABLE `technical_interview_submission`
   ADD KEY `technical_interview_submission_ibfk_1` (`submitter_id`);
 
 --
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `profile_id` (`profile_id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Indexes for table `user_status`
+--
+ALTER TABLE `user_status`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `profile_id` (`profile_id`);
 
 --
 -- Indexes for table `work_experience`
@@ -601,6 +559,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `interviewers_list`
+--
+ALTER TABLE `interviewers_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `interviewproposal`
 --
 ALTER TABLE `interviewproposal`
@@ -616,25 +580,25 @@ ALTER TABLE `job_provider`
 -- AUTO_INCREMENT for table `job_seeker`
 --
 ALTER TABLE `job_seeker`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `job_seeker_feedback`
 --
 ALTER TABLE `job_seeker_feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `job_vacency`
 --
 ALTER TABLE `job_vacency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `job_vacency_candidate`
 --
 ALTER TABLE `job_vacency_candidate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -652,7 +616,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `report`
@@ -670,37 +634,37 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `skills`
 --
 ALTER TABLE `skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `technical_interview`
 --
 ALTER TABLE `technical_interview`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `technical_interview_submission`
 --
 ALTER TABLE `technical_interview_submission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `user_status`
+--
+ALTER TABLE `user_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `work_experience`
 --
 ALTER TABLE `work_experience`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
