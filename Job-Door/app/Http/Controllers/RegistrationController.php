@@ -90,15 +90,6 @@ class RegistrationController extends Controller
     {
         $res = $req->validated();
 
-        // $user = new User();
-
-        // $user->name = $res['uname'];
-        // $user->email = $res['mail'];
-        // $user->password = $res['password'];
-        // $user->save();
-
-
-
         $jobProvider = new JobProvider();
 
         $jobProvider->fname = $res['fname'];

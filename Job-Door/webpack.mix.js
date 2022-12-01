@@ -11,16 +11,6 @@ const mix = require("laravel-mix");
  |
  */
 
-mix.js(
-    [
-        "resources/js/app.js",
-        "resources/js/jquery.js",
-        "resources/js/jobVacency.js",
-        "resources/js/portfolio.js",
-        "resources/js/interview.js",
-        "resources/js/proposal.js",
-    ],
-    "public/js"
-)
+mix.js("resources/js/app.js", "public/js")
     .sass("resources/sass/app.scss", "public/css")
-    .sourceMaps();
+    .react();

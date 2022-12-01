@@ -16,6 +16,7 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next)
     {
+        // dd($request->user()->hasVerifiedEmail());
         if (session()->has('uid')) {
 
             return $next($request);

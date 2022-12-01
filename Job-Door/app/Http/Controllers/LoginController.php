@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job_Seeker;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -13,9 +14,19 @@ class LoginController extends Controller
         return view('login');
     }
 
-    function signIn()
+    function signIn(Request $req)
     {
+        $credentials = $req->only('unmail', 'pass');
 
+        // dd($credentials);
+        $authenticated = (Auth::attempt([
+
+            'name' => $credentials['unmail'],
+            'password' => $credentials['pass']
+        ]));
+        // if () {
+        // dd('found');
+        // }
         //$js = new Job_Seeker();
         // $u = new UserModel();
         // $login = $u->where('uname', $req->unmail)->where('pass', $req->pass)->first();

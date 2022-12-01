@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function () {
     handle roles : use to redirect to specific dashboard based on roles
     
  */
-Route::group(['middleware' => ['preventBackLogout', 'checkLogout', 'handleRoles']], function () {
+Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function () {
 
     Route::post('/login', [LoginController::class, 'signIn'])->name('login');
 });
