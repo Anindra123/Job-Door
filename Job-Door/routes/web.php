@@ -54,6 +54,7 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::post('/register', [RegistrationController::class, 'signUp']);
     Route::get('/', [LoginController::class, 'getForm'])->name('login');
     Route::get('/login', [LoginController::class, 'getForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'signIn'])->name('login');
 });
 
 Route::middleware('auth')->group(function () {
@@ -79,9 +80,7 @@ Route::middleware('auth')->group(function () {
     handle roles : use to redirect to specific dashboard based on roles
     
  */
-Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function () {
-
-    Route::post('/login', [LoginController::class, 'signIn'])->name('login');
+Route::group(['middleware' => ['preventBackLogout']], function () {
 });
 
 
@@ -104,7 +103,7 @@ Route::get('/logout', [LoginController::class, 'logOut'])
  */
 
 //Job seeker routes
-Route::group(['middleware' => ['preventBackLogout', 'checkLogin', 'jobSeekerRule']], function () {
+Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLogout', 'jobSeekerRule']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show']);
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::get('/updateprofile', [ProfileController::class, 'updateProfile']);
@@ -166,7 +165,7 @@ Route::group(['middleware' => ['preventBackLogout', 'checkLogout']], function ()
     Route::post('/signUpJp', [RegistrationController::class, 'signUpJobProvider']);
 });
 
-Route::group(['middleware' => ['preventBackLogout', 'checkLogin', 'jobProviderRule']], function () {
+Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLogout', 'jobProviderRule']], function () {
     Route::get('/jpdashboard', [DashboardController::class, 'showJobProvider']);
     Route::get('/showJobProviderProfile', [ProfileController::class, 'showJobProviderProfile']);
     Route::get('/deleteJobProviderProfile', [DashboardController::class, 'deleteJobProvider']);

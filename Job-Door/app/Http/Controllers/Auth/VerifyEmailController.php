@@ -17,6 +17,7 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request)
     {
+        // dd('called');
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended('login' . '?verified=1');
         }

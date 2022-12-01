@@ -19,6 +19,7 @@ class VerifyRoles
      */
     public function handle(Request $request, Closure $next)
     {
+
         $uname = $request->input('unmail');
         $password = $request->input('pass');
         $u = new User();
@@ -38,15 +39,15 @@ class VerifyRoles
 
         if ($urole->role === "ADMIN") {
             session()->put("uid", $login->id);
-            return redirect()->to('/adminDashboard');
+            // return redirect()->to('/adminDashboard');
         }
         if ($urole->role === "JOB SEEKER") {
             session()->put("uid", $login->id);
-            return redirect()->to('/dashboard');
+            // return redirect()->to('/dashboard');
         }
         if ($urole->role === "JOB PROVIDER") {
             session()->put("uid", $login->id);
-            return redirect()->to('/jpdashboard');
+            // return redirect()->to('/jpdashboard');
         }
 
         return $next($request);

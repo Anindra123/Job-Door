@@ -34,7 +34,7 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container body-container">
 
         <div class="row">
             <div class="col-lg-12">
@@ -43,6 +43,7 @@
 
         </div>
     </div>
+    <footer style="position: fixed; bottom: 0; width: 100%;" class="bg-dark">This will be footer</footer>
 </body>
 
 </html>

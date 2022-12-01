@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: aqua;
+}
+#sideNav {
+    height: 300vh;
+    border-right: 0.5px solid black;
+    padding: 1rem;
+}
