@@ -44,7 +44,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'email_verified_at' => 'datetime',
     ];
 
-
     // public function handle(Registered $event)
     // {
     //     if ($event->user instanceof MustVerifyEmail && !$event->user->hasVerifiedEmail()) {
