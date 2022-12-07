@@ -50,6 +50,10 @@ class ProposalController extends Controller
         return view('interviewProposalCreate');
     }
 
+    public function submitProposalPartial(Request $req)
+    {
+    }
+
     public function submitForm(InterviewProposalValidation $req, $jvid = null)
     {
         $jv = new JobVacency();

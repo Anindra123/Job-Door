@@ -20,4 +20,5 @@ import * as bootstrap from "bootstrap";
 import Example from "./components/Example";
 import JobList from "./components/JobList";
 import ShowJobList from "./components/ShowJobList";
+import InterviewProposal from "./components/InterviewProposal";
 // import Login from "./components/Login";
