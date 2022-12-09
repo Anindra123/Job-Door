@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import JobList from "./JobList";
+import JobList from "./JobCard";
 
 function Example() {
     const baseUrl = "http://localhost:8000/api/getJobVacencyList";

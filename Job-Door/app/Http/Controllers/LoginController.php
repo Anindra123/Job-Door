@@ -68,6 +68,8 @@ class LoginController extends Controller
                 if ($urole->role === "JOB PROVIDER") {
                     $request->session()->regenerate();
                     session()->put("uid", $login->id);
+                    $token = $login->createToken($login->name);
+                    Cookie::queue(Cookie::make('token', $token->accessToken->token));
                     return redirect()->intended('/jpdashboard');
                 }
             } else {
@@ -79,11 +81,15 @@ class LoginController extends Controller
                 if ($urole->role === "JOB SEEKER") {
                     // $request->session()->regenerate();
                     session()->put("uid", $loginWithMail->id);
+                    $token = $login->createToken($login->name);
+                    Cookie::queue(Cookie::make('token', $token->accessToken->token));
                     return redirect()->intended('/dashboard');
                 }
                 if ($urole->role === "JOB PROVIDER") {
                     // $request->session()->regenerate();
                     session()->put("uid", $loginWithMail->id);
+                    $token = $login->createToken($login->name);
+                    Cookie::queue(Cookie::make('token', $token->accessToken->token));
                     return redirect()->intended('/jpdashboard');
                 }
             }

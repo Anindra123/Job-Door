@@ -21,5 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/getJobVacencyList', [JobVacencyController::class, 'getCandidateJobPost']);
 Route::get('/getVacencyPostList', [JobVacencyController::class, 'getJobVacencyList']);
+Route::get('/searchJobVacencyList/{search}', [JobVacencyController::class, 'searchList']);
+Route::get('/apply/{id}', [JobVacencyController::class, 'applyVacantJob']);
+Route::get('/getJobVacencyPost/{id}', [JobVacencyController::class, 'getJobPost']);
+Route::get('/decline/{id}', [JobVacencyController::class, 'declineVacantJob']);
 
 Route::post("/loginAdmin", [AdminController::class, 'login']);

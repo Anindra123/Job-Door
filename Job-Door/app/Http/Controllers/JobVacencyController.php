@@ -45,6 +45,42 @@ class JobVacencyController extends Controller
         return view('jobvacencyCreate');
     }
 
+    public function getJobPost($id = null)
+    {
+        $jv = new JobVacency();
+        $jobSeeker = new Job_Seeker();
+        $u = new UserModel();
+        $jvc = new Job_Vacency_Candidate();
+
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('id', $uid)->first();
+        $js = $jobSeeker->where('id', $user->profile_id)->first();
+
+        $jobVac = $jv->where('id', $id)->first();
+        $candidate = $jvc->where('candidate_id', $js->id)->where('job_post_id', $id)
+            ->first();
+
+        return response()->json([
+            'job' => $jobVac,
+            'applied' => $candidate,
+        ]);
+    }
+
+    public function searchList($search = null)
+    {
+        $jv = new JobVacency();
+        $post = $jv->where('job_title', 'LIKE', '%' . $search . '%')->first();
+        if (empty($post)) {
+            $post  = JobVacency::all();
+            return response()->json(['job' => $post]);
+        }
+        return response()->json(['job' => $post]);
+    }
+
     public function submitForm(JobVacencyValidation $req)
     {
 
@@ -154,7 +190,14 @@ class JobVacencyController extends Controller
         $u = new UserModel();
         $jvc = new Job_Vacency_Candidate();
 
-        $user = $u->where('id', session()->get('uid'))->first();
+
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('id', $uid)->first();
+        // $user = $u->where('id', session()->get('uid'))->first();
         $js = $jobSeeker->where('id', $user->profile_id)->first();
         $jobpost = $jv->where('id', $id)->first();
         $jobpost->vacency_count =  $jobpost->vacency_count - 1;
@@ -167,7 +210,7 @@ class JobVacencyController extends Controller
 
         $jvc->save();
 
-        return redirect('getVacency');
+        return response()->json(['res' => true]);
     }
 
     public function declineVacantJob($id = null)
@@ -182,13 +225,18 @@ class JobVacencyController extends Controller
         $job->vacency_count = $job->vacency_count + 1;
         $job->save();
 
-        $user = $u->where('id', session()->get('uid'))->first();
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('id', $uid)->first();
         $js = $jobSeeker->where('id', $user->profile_id)->first();
 
         $jobpost = $jvc->where('job_post_id', $id)->where('candidate_id', $js->id)->first();
         $jobpost->delete();
 
-        return redirect('getVacency');
+        return response()->json(['res' => true]);
     }
 
     public function manageCandidateList()

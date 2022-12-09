@@ -18,7 +18,7 @@ import * as bootstrap from "bootstrap";
 // require("./components/ShowJobList");
 
 import Example from "./components/Example";
-import JobList from "./components/JobList";
+import JobList from "./components/JobCard";
 import ShowJobList from "./components/ShowJobList";
 import InterviewProposal from "./components/InterviewProposal";
 // import Login from "./components/Login";
