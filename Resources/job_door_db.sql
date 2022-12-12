@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2022 at 04:41 PM
+-- Generation Time: Dec 12, 2022 at 04:46 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -315,13 +315,6 @@ CREATE TABLE `personal_access_tokens` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `personal_access_tokens`
---
-
-INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `expires_at`, `last_used_at`, `created_at`, `updated_at`) VALUES
-(27, 'App\\Models\\User', 2, 'Bivas', 'e2b66fe44565a56376b872ee517c177b2dd4b1f821047a66d863530eea61918a', '[\"*\"]', NULL, NULL, '2022-12-12 15:01:55', '2022-12-12 15:01:55');
 
 -- --------------------------------------------------------
 
