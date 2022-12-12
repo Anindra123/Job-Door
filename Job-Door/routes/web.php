@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppliedJobController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -7,9 +8,11 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\InterviewProcessController;
 use App\Http\Controllers\JobVacencyController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ManageCandidateController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
@@ -156,6 +159,7 @@ Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLog
     Route::get('/declineJob-{id}', [JobVacencyController::class, 'declineVacantJob']);
     Route::get('/showInterview', [InterviewProcessController::class, 'getAssessment']);
     Route::post('/submitAnswer', [InterviewProcessController::class, 'submitAssesment']);
+    Route::get('/viewApplied', [AppliedJobController::class, 'getView']);
 });
 
 //Admin routes
@@ -190,7 +194,7 @@ Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLog
     Route::get('/jobvacency-{id}', [JobVacencyController::class, 'deletePost']);
     Route::get('/jobvacencyUpdate-{id}', [JobVacencyController::class, 'showUpdateForm']);
     Route::post('/jobvacencyUpdate-{id}', [JobVacencyController::class, 'updatePost']);
-    Route::get('/manageCandidate', [JobVacencyController::class, 'manageCandidateList']);
+    // Route::get('/manageCandidate', [JobVacencyController::class, 'manageCandidateList']);
     Route::get('/viewPortfolio-{id}', [JobVacencyController::class, 'viewCandidatePortfolio']);
     Route::get('/acceptCandidate-{id}', [JobVacencyController::class, 'acceptCandidateReq']);
     Route::get('/rejectCandidate-{id}', [JobVacencyController::class, 'rejectCandidateReq']);
@@ -206,6 +210,7 @@ Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLog
     Route::get('/manageSubmission', [InterviewProcessController::class, 'showSubmissionList']);
     Route::get('/hireCandidate-{id}', [InterviewProcessController::class, 'hireInterviewCandidate']);
     Route::get('/reject-{id}', [InterviewProcessController::class, 'rejectInterviewCandidate']);
+    Route::get('/showCandidateList', [ManageCandidateController::class, 'getView']);
 });
 
 
@@ -216,5 +221,8 @@ Route::get('/example', function () {
 
 /*
 
-Reset password routes
+Email routes
 */
+
+Route::get('/getView', [EmailController::class, 'show']);
+Route::post('/sendmail', [EmailController::class, 'sendMail']);

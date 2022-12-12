@@ -74,19 +74,19 @@ class LoginController extends Controller
                 }
             } else {
                 if ($urole->role === "ADMIN") {
-                    // $request->session()->regenerate();
+                    $request->session()->regenerate();
                     session()->put("uid", $loginWithMail->id);
                     return redirect()->intended('/adminDashboard');
                 }
                 if ($urole->role === "JOB SEEKER") {
-                    // $request->session()->regenerate();
+                    $request->session()->regenerate();
                     session()->put("uid", $loginWithMail->id);
                     $token = $login->createToken($login->name);
                     Cookie::queue(Cookie::make('token', $token->accessToken->token));
                     return redirect()->intended('/dashboard');
                 }
                 if ($urole->role === "JOB PROVIDER") {
-                    // $request->session()->regenerate();
+                    $request->session()->regenerate();
                     session()->put("uid", $loginWithMail->id);
                     $token = $login->createToken($login->name);
                     Cookie::queue(Cookie::make('token', $token->accessToken->token));

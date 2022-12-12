@@ -207,6 +207,8 @@ class JobVacencyController extends Controller
         $jvc->candidate_id = $js->id;
         $jvc->job_post_id = $jobpost->id;
         $jvc->provider_id = $jobpost->jp_id;
+        $jvc->provider_id = $jobpost->jp_id;
+        $jvc->approval = "PENDING";
 
         $jvc->save();
 
@@ -220,6 +222,7 @@ class JobVacencyController extends Controller
 
         $u = new UserModel();
         $jvc = new Job_Vacency_Candidate();
+
         $job = $jv->where('id', $id)->first();
 
         $job->vacency_count = $job->vacency_count + 1;
@@ -236,114 +239,8 @@ class JobVacencyController extends Controller
         $jobpost = $jvc->where('job_post_id', $id)->where('candidate_id', $js->id)->first();
         $jobpost->delete();
 
+
+
         return response()->json(['res' => true]);
-    }
-
-    public function manageCandidateList()
-    {
-        $jv = new JobVacency();
-        $jobSeeker = new Job_Seeker();
-        $jobProvider = new JobProvider();
-        $u = new UserModel();
-        $pr = new Portfolio();
-        $jvc = new Job_Vacency_Candidate();
-
-        $user = $u->where('id', session()->get('uid'))->first();
-
-        $jp = $jobProvider->where('id', $user->profile_id)->first();
-
-        $post = $jvc->where('provider_id', $jp->id)->get();
-
-        $lst = array();
-
-        foreach ($post as $p) {
-            $port = $pr->where('js_id', $p->candidate_id)->first();
-            $profile = $jobSeeker->where('id', $port->js_id)->first();
-            $ustatus = $u->where('profile_id', $profile->id)->first();
-            $jobpost = $jv->where('id', $p->job_post_id)->first();
-
-            $c['name'] = $profile->fname . ' ' . $profile->lname;
-            $c['status'] = $ustatus->status;
-
-            $c['position'] = $jobpost->job_title;
-            $c['port'] = $port->id;
-            $c['id']  = $p->id;
-            $c['state'] = $p->status;
-            array_push($lst, $c);
-        }
-
-        return view('manageJobVacency', ['candidate' => $lst]);
-    }
-
-    public function viewCandidatePortfolio($id = null)
-    {
-        $p = new Portfolio();
-        // $js = new Job_Seeker();
-        $sk = new SkillModel();
-        $wk = new WorkExperienceModel();
-        $sl = new ServiceModel();
-        $cv = new CVModel();
-        $u = new UserModel();
-        $port = $p->where('id', $id)->first();
-        $path = null;
-        $skillList = null;
-        if (!empty($port)) {
-            $skills = $sk->where('pr_id', $port->id)->first();
-            $workExpList = $wk->where('pr_id', $port->id)->get();
-            $servicesList = $sl->where('pr_id', $port->id)->get();
-            $cv_path = $cv->where('pr_id', $port->id)->first();
-            if (!empty($skills)) $skillList = explode(',', $skills->skill_list);
-            if (!empty($cv_path)) $path = $cv_path->cv_file_path;
-            session()->put("prid", $port->id);
-            $rethtml = view('viewportfolio')
-                ->with('port', $port->portfolio_title)
-                ->with('sk_list', $skillList)
-                ->with('cv_path', $path)
-                ->with('wk_list', $workExpList)
-                ->with('s_list', $servicesList)->render();
-            return response()->json([
-                'html' => $rethtml
-            ]);
-        }
-        return response()->json([], 404);
-    }
-
-    public function acceptCandidateReq($id = null)
-    {
-        $jvc = new Job_Vacency_Candidate();
-
-        $post = $jvc->where('id', $id)->first();
-
-        $post->status = "ACCEPTED";
-
-        $post->save();
-        $feedback = new job_seeker_feedback();
-
-        $feedback->job_seeker_id = $post->candidate_id;
-        $feedback->phase = 'Screening Phase';
-        $feedback->status = 'ACCEPTED';
-        $feedback->save();
-        return redirect('manageCandidate');
-    }
-
-    public function rejectCandidateReq($id = null)
-    {
-        $jvc = new Job_Vacency_Candidate();
-
-        $post = $jvc->where('id', $id)->first();
-        $jv = new JobVacency();
-        $post->status = "REJECTED";
-        $post->save();
-        $job = $jv->where('id', $post->job_post_id)->first();
-        $job->vacency_count = $job->vacency_count + 1;
-        $job->save();
-        $feedback = new job_seeker_feedback();
-
-        $feedback->job_seeker_id = $post->candidate_id;
-        $feedback->phase = 'Technical Interview';
-        $feedback->status = 'REJECTED';
-        $feedback->feedback = "Need to improve technical skills";
-        $feedback->save();
-        return redirect('manageCandidate');
     }
 }

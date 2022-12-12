@@ -6,7 +6,7 @@ Job Vacency Candidates
 
 @section('content')
 
-<div class="container">
+<!-- <div class="container">
     <div class="row">
         <div class="col-auto m-3">
             <h1>Applied Candidate List</h1>
@@ -84,6 +84,17 @@ Job Vacency Candidates
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div id="managejobVacency-root"></div>
+<div class="modal fade portfolio-modal" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content" id="modal-root">
+
         </div>
     </div>
 </div>

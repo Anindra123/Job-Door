@@ -55,6 +55,22 @@ class CVController extends Controller
         return redirect('/404');
     }
 
+    public function downloadCV($id = null)
+    {
+        $cv = new CVModel();
+        $file = $cv->where('pr_id', $id)->first();
+        // $path = public_path($file->cv_file_path);
+        // return response()->download($path);
+        if (Storage::disk('local')->exists($file->cv_file_path)) {
+            $path = Storage::disk('local')->path($file->cv_file_path);
+            $content = file_get_contents($path);
+            return response($content)->withHeaders([
+                'Content-Type' => mime_content_type($path),
+            ]);
+        }
+        return redirect('/404');
+    }
+
     public function deleteFile()
     {
         $cv = new CVModel();

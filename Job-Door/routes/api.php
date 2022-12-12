@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppliedJobController;
+use App\Http\Controllers\CVController;
 use App\Http\Controllers\JobVacencyController;
+use App\Http\Controllers\ManageCandidateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,11 +22,26 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/**
+JOB SEEKER API
+ */
 Route::get('/getJobVacencyList', [JobVacencyController::class, 'getCandidateJobPost']);
 Route::get('/getVacencyPostList', [JobVacencyController::class, 'getJobVacencyList']);
 Route::get('/searchJobVacencyList/{search}', [JobVacencyController::class, 'searchList']);
 Route::get('/apply/{id}', [JobVacencyController::class, 'applyVacantJob']);
 Route::get('/getJobVacencyPost/{id}', [JobVacencyController::class, 'getJobPost']);
 Route::get('/decline/{id}', [JobVacencyController::class, 'declineVacantJob']);
+Route::get("/showAppliedJob", [AppliedJobController::class, 'get']);
+
+/**
+JOB PROVIDER API
+ */
+Route::get("/acceptRequest/{id}", [ManageCandidateController::class, "acceptCandidateReq"]);
+Route::post("/declineRequest", [ManageCandidateController::class, "rejectCandidateReq"]);
+Route::get("/getCandidateList", [ManageCandidateController::class, "manageCandidateList"]);
+Route::get('/showPortfolio/{id}', [ManageCandidateController::class, "viewCandidatePortfolio"]);
+Route::get('/cvdownload/{id}', [CVController::class, 'downloadCV']);
+
 
 Route::post("/loginAdmin", [AdminController::class, 'login']);

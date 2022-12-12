@@ -65,7 +65,7 @@
                             <div class="accordion-body">
                                 <div class="list-group">
                                     <a href="/getVacency" class="list-group-item list-group-item-action">Find Job Vacency</a>
-                                    <a href="#" class="list-group-item list-group-item-action">Applied Jobs</a>
+                                    <a href="/viewApplied" class="list-group-item list-group-item-action">Applied Jobs</a>
                                 </div>
                             </div>
                         </div>

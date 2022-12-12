@@ -65,7 +65,7 @@
                             <div class="accordion-body">
                                 <div class="list-group">
                                     <a href="vacency" class="list-group-item list-group-item-action">Post Job Vacency</a>
-                                    <a href="manageCandidate" class="list-group-item list-group-item-action">Manage candidates</a>
+                                    <a href="showCandidateList" class="list-group-item list-group-item-action">Manage candidates</a>
                                 </div>
                             </div>
                         </div>

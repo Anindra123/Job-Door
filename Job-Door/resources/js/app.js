@@ -21,4 +21,6 @@ import Example from "./components/Example";
 import JobList from "./components/JobCard";
 import ShowJobList from "./components/ShowJobList";
 import InterviewProposal from "./components/InterviewProposal";
+import AppliedJob from "./components/AppliedJob";
+import ManageCandidate from "./components/ManageCandidate";
 // import Login from "./components/Login";
