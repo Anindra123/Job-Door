@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="assets/img/logo.png" type="image/png" />
+
+    <!--=============== REMIXICONS ===============-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <title>Job Door</title>
+  </head>
+  <body class= "dark-theme">
+    <header class="header" id="header">
+      <nav class="nav container">
+        <a href="#" class="nav__logo" id="rosLogo">Job Door</a>
+
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a href="#home" class="nav__link">Home</a>
+            </li>
+            <li class="nav__item">
+              <a href="#about" class="nav__link">About</a>
+            </li>
+            <li class="nav__item">
+              <a href="#explore" class="nav__link">Explore</a>
+            </li>
+            <li class="nav__item">
+              <a href="#jobprovider" class="nav__link">Job Providers</a>
+            </li>
+          </ul>
+
+          <i class="ri-close-line nav__close" id="nav-close"></i>
+        </div>
+
+        <div class="nav__toggle" id="nav-toggle">
+          <i class="ri-function-line"></i>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main">
+      <!--==================== HOME ====================-->
+      <section class="home" id="home">
+        <img src="assets/img/hhh.jpg" alt="" class="home__img" />
+
+        <div class="home__container container grid">
+          <div class="home__data">
+            <span class="home__data-subtitle">Success Begins Here</span>
+            <h1 class="home__data-title">
+              A Job<br> <b> Marketplace </b> with <br> new <b>Opportunities <br />
+            </h1>
+            <a href="http://127.0.0.1:8000/login" class="button">Sign in</a>
+          </div>
+
+          <div class="home__social">
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              class="home__social-link"
+            >
+              <i class="ri-facebook-box-fill"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              class="home__social-link"
+            >
+              <i class="ri-instagram-fill"></i>
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              class="home__social-link"
+            >
+              <i class="ri-twitter-fill"></i>
+            </a>
+          </div>
+      </section>
+
+      <!--==================== ABOUT ====================-->
+      <section class="about section" id="about">
+        <div class="about__container container grid">
+          <div class="about__data">
+            <h2 class="section__title about__title">
+              More About <br />
+              Job Door
+            </h2>
+            <p class="about__description" id= "aboutInfo">
+              
+            </p>
+            <a href="#" class="button">Make a try</a>
+          </div>
+
+          <div class="about__img">
+            <div class="about__img-overlay">
+              <img src="assets/img/e1.jpg" alt="" class="about__img-one" />
+            </div>
+
+            <div class="about__img-overlay">
+              <img src="assets/img/e2.jpg" alt="" class="about__img-two" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== Explore ====================-->
+      <section class="discover section" id="explore">
+        <h2 class="section__title">
+          Explore the most <br />
+          trending jobs
+        </h2>
+
+        <div class="discover__container container swiper-container">
+          <div class="swiper-wrapper">
+            <!--==================== Explore 1 ====================-->
+            <div class="discover__card swiper-slide">
+              <img
+                src="assets/img/webdev.jpg"
+                alt=""
+                class="discover__img"
+              />
+              <div class="discover__data">
+                <h2 class="discover__title">Web Developer</h2>
+              </div>
+            </div>
+
+            <!--==================== Explore 2 ====================-->
+            <div class="discover__card swiper-slide">
+              <img
+                src="assets/img/ui.jpg"
+                alt=""
+                class="discover__img"
+              />
+              <div class="discover__data">
+                <h2 class="discover__title">UI/UX Design</h2>
+              </div>
+            </div>
+
+            <!--==================== Explore 3 ====================-->
+            <div class="discover__card swiper-slide">
+              <img
+                src="assets/img/photography.jpg"
+                alt=""
+                class="discover__img"
+              />
+              <div class="discover__data">
+                <h2 class="discover__title">Photographer</h2>
+                <span class="discover__description">One touch of nature</span>
+              </div>
+            </div>
+
+            <!--==================== Explore 4 ====================-->
+            <div class="discover__card swiper-slide">
+              <img
+                src="assets/img/photography.jpg"
+                alt=""
+                class="discover__img"
+              />
+              <div class="discover__data">
+                <h2 class="discover__title">Photographer</h2>
+                <span class="discover__description">Fashion fade, style is eternal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== EXPERIENCE ====================-->
+      <section class="experience section">
+        <h2 class="section__title">
+          With Our Experience <br />
+          We Will Serve You
+        </h2>
+
+        <div class="experience__container container grid">
+          <div class="experience__content grid">
+            <div class="experience__data">
+              <h2 class="experience__number" id="yrExpdreience"></h2>
+              <span class="expedrience__description"
+                > <br />
+                </span
+              >
+            </div>
+
+            <div class="experience__data">
+              <h2 class="experience__number" id = "jobDone"></h2>
+              <span class="experience__description"
+                >1230 Job Opportunities <br />
+                </span
+              >
+            </div>
+
+            <div class="experience__data">
+              <h2 class="experience__number" id= "completedk_Event"></h2>
+              <span class="experiennce__description"
+                > <br />
+                </span
+              >
+            </div>
+          </div>
+
+          <div class="experience__img grid">
+            <div class="experience__overlay">
+              <img
+                src="assets/img/jobs.jpg"
+                alt=""
+                class="experience__img-one"
+              />
+            </div>
+
+            <div class="experience__overlay">
+              <img
+                src="assets/img/succ.jpg"
+                alt=""
+                class="experience__img-two"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--==================== Package ====================-->
+      <section class="place section" id="jobprovider">
+        <h2 class="section__title">Most Renowned Job Providers</h2>
+
+        <div class="place__container container grid">
+          <!--==================== Package CARD 1 ====================-->
+          <div class="place__card">
+            <img src="assets/img/micro.jpg" alt="" class="place__img" />
+
+            <div class="place__content">
+              <span class="place__rating">
+              </span>
+
+              <div class="place__data">
+                <h3 class="place__title">Microsoft</h3>
+                <!-- <span class="place__subtitle">Indonesia</span> -->
+              </div>
+            </div>
+          </div>
+
+          <!--==================== Package CARD 2 ====================-->
+          <div class="place__card">
+            <img src="assets/img/google.jpg" alt="" class="place__img" />
+
+            <div class="place__content">
+              <span class="place__rating">
+              </span>
+
+              <div class="place__data">
+                <h3 class="place__title">Google</h3>
+              </div>
+            </div>
+          </div>
+
+          <!--==================== Package CARD 3 ====================-->
+          <div class="place__card">
+            <img src="assets/img/ibm.jpg" alt="" class="place__img" />
+
+            <div class="place__content">
+              <span class="place__rating">
+              </span>
+
+              <div class="place__data">
+                <h3 class="place__title">IBM</h3>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="footer section">
+      <div class="footer__container container grid">
+        <div class="footer__content grid">
+          <div class="footer__data">
+            <h3 class="footer__title">Job Door</h3>
+            <p class="footer__description">
+              Opportunities don’t happen, <br /> you create them.
+            </p>
+            <div>
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                class="footer__social"
+              >
+                <i class="ri-facebook-box-fill"></i>
+              </a>
+              <a
+                href="https://twitter.com/"
+                target="_blank"
+                class="footer__social"
+              >
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                class="footer__social"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                class="footer__social"
+              >
+                <i class="ri-youtube-fill"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer__data">
+            <h3 class="footer__subtitle">About</h3>
+            <ul>
+              <li class="footer__item">
+                <a href="" class="footer__link">About Us</a>
+              </li>
+              <li class="footer__item">
+                <a href="" class="footer__link">Features</a>
+              </li>
+              <li class="footer__item">
+                <a href="" class="footer__link">New & Blog</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer__rights">
+          <p class="footer__copy">
+            &#169; 2021 Job Door. All rigths reserved.
+          </p>
+          <div class="footer__terms">
+            <a href="#" class="footer__terms-link">Terms & Agreements</a>
+            <a href="#" class="footer__terms-link">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!--=============== SCROLL REVEAL===============-->
+    <script src="assets/js/scrollreveal.min.js"></script>
+
+    <!--=============== SWIPER JS ===============-->
+    <script src="assets/js/swiper-bundle.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="main.js"></script>
+  </body>
+</html>
