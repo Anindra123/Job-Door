@@ -1,0 +1,8 @@
+ALTER TABLE `job_seeker_feedback` ADD `job_post_id` INT NOT NULL AFTER `job_seeker_id`;
+
+ALTER TABLE `notification` CHANGE `sender` `sender` TEXT NOT NULL;
+
+CREATE TABLE `job_door_db`.`proposal_phases` (`id` INT NOT NULL AUTO_INCREMENT , `job_post_id` INT NOT NULL , `num_of_phases` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+ALTER TABLE `proposal_phases` ADD `phase_name` TEXT NOT NULL AFTER `num_of_phases`, ADD `jp_id` INT NOT NULL AFTER `phase_name`;

@@ -185,4 +185,28 @@ class ProposalController extends Controller
 
         return response()->json(['html' => $retHtml]);
     }
+
+    public function getApprovedCandidates($id = null)
+    {
+        $jv = new JobVacency();
+        $jp = new JobProvider();
+        $u = new UserModel();
+        $jvc = new Job_Vacency_Candidate();
+        $jobS = new Job_Seeker();
+
+        $post = $jvc->where('job_post_id', $id)->where('approval', 'APPROVED')->get();
+
+        if (!empty($post)) {
+            $list = [];
+
+            foreach ($post as $p) {
+                $js = $jobS->where('id', $p->candidate_id)->first();
+
+                array_push($list, $js);
+            }
+
+            return response()->json(['res' => $list]);
+        }
+        return response()->json(['res' => $post]);
+    }
 }

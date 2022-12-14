@@ -172,6 +172,7 @@ class JobVacencyController extends Controller
             'port' => $port,
             'job' => $jobVac,
             'applied' => $candidate,
+
         ]);
     }
 

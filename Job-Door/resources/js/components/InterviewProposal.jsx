@@ -1,49 +1,67 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
+import { useForm } from "react-hook-form";
 import PhaseDialog from "./PhaseDialog";
 
 const baserUrl = "http://localhost:8000/api/getVacencyPostList";
 const postUrl = "";
+const approvedListUrl = "http://localhost:8000/api/getApprovedList";
 const InterviewProposal = () => {
-    let [phaseNum, setPhaseNum] = useState(0);
-    let [proposal, setProposal] = useState({ jv_id: 0, num_of_phases: 1 });
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        formState,
+        formState: { errors },
+    } = useForm({ defaultValues: { jv_id: 0, num_of_phases: 0 } });
+    let [cList, setcList] = useState([]);
+    let [proposal, setProposal] = useState({ jv_id: 0, num_of_phases: 0 });
     let [vacency, setVacency] = useState([]);
     useEffect(() => {
         axios.get(baserUrl).then((r) => {
             setVacency(r.data);
-            setProposal({ ...proposal, jv_id: r.data[0].id });
+            setValue("jv_id", r.data[0].id);
         });
     }, []);
 
-    console.log(vacency);
+    useEffect(() => {
+        const sub = watch((data) => {
+            axios.get(`${approvedListUrl}/${data.jv_id}`).then((r) => {
+                setcList(r.data.res);
+            });
+        });
+
+        return () => {
+            sub.unsubscribe();
+        };
+    }, [watch]);
 
     const handleFormChange = (e) => {
         e.preventDefault();
         setProposal({ ...proposal, [e.target.name]: e.target.value });
     };
 
-    const handleFormSubmission = (e) => {
-        e.preventDefault();
-        // console.log(proposal);
+    // const handleFormSubmission = (e) => {
+    //     e.preventDefault();
+    //     // console.log(proposal);
 
-        axios.post();
-    };
-
+    //     axios.post();
+    // };
+    const onSubmit = (data) => {};
+    console.log(cList);
     return (
         <>
             <div class="modal-body">
-                <form onSubmit={handleFormSubmission}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group">
                         <label htmlFor="vacencyList">
                             Select a job vacency to create proposal :
                         </label>
                         <select
-                            name="jv_id"
-                            id=""
-                            value={proposal.jv_id}
                             className="form-control"
-                            onChange={handleFormChange}
+                            {...register("jv_id", { required: true })}
                         >
                             {vacency &&
                                 vacency.map((v) => (
@@ -52,7 +70,30 @@ const InterviewProposal = () => {
                                     </option>
                                 ))}
                         </select>
+                        <span className="text text-danger">
+                            {errors.jv_id && "Please select a job vacency post"}
+                        </span>
+                        <br />
+                        <h6>Approved Candidate List : </h6>
+                        {cList.length > 0 ? (
+                            <div className="border border-secondar p-3">
+                                <ul class="list-group">
+                                    {cList.map((c) => (
+                                        <li
+                                            class="list-group-item"
+                                            key={c.id}
+                                        >{`${c.fname} ${c.lname}`}</li>
+                                    ))}
+                                </ul>
+                                <br />
+                            </div>
+                        ) : (
+                            <p className="text text-danger">
+                                No Candidates Approved
+                            </p>
+                        )}
                     </div>
+
                     <div className="form-group">
                         <label htmlFor="phaseNum">
                             Enter number of phase :
@@ -60,16 +101,31 @@ const InterviewProposal = () => {
                         <input
                             type="number"
                             className="form-control"
-                            name="num_of_phases"
-                            value={proposal.num_of_phases}
-                            onChange={handleFormChange}
+                            {...register("num_of_phases", {
+                                required: true,
+                                min: 1,
+                            })}
                         />
+                        <span className="text text-danger">
+                            {errors.num_of_phases &&
+                                "Please enter a valid phase number"}
+                        </span>
                     </div>
                     <br />
                     <div class="modal-footer">
-                        <button type="submit" className="btn btn-success">
-                            Save
-                        </button>{" "}
+                        {cList.length > 0 ? (
+                            <button type="submit" className="btn btn-success">
+                                Save
+                            </button>
+                        ) : (
+                            <button
+                                type="submit"
+                                className="btn btn-success"
+                                disabled
+                            >
+                                Save
+                            </button>
+                        )}{" "}
                         <button
                             type="button"
                             class="btn btn-secondary"

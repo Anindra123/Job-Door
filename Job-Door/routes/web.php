@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\InterviewHistoryController;
 use App\Http\Controllers\InterviewProcessController;
 use App\Http\Controllers\JobVacencyController;
 use App\Http\Controllers\LoginController;
@@ -211,6 +212,7 @@ Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLog
     Route::get('/hireCandidate-{id}', [InterviewProcessController::class, 'hireInterviewCandidate']);
     Route::get('/reject-{id}', [InterviewProcessController::class, 'rejectInterviewCandidate']);
     Route::get('/showCandidateList', [ManageCandidateController::class, 'getView']);
+    Route::get('/showInterviewHistory',[InterviewHistoryController::class,'get']);
 });
 
 

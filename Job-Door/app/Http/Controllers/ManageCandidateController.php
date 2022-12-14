@@ -36,10 +36,8 @@ class ManageCandidateController extends Controller
         $pr = new Portfolio();
         $jvc = new Job_Vacency_Candidate();
 
-        // $user = $u->where('id', session()->get('uid'))->first();
-        // return response()->json(['res' => Cookie::get('token')]);
+
         $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
-        // $token = Cookie::get('token');
         $tokenID = PersonalAccessToken::where('token', $token)->first();
         $uid = $tokenID->tokenable->id;
 
@@ -117,14 +115,15 @@ class ManageCandidateController extends Controller
 
         $post = $jvc->where('id', $id)->first();
 
-        $post->status = "ACCEPTED";
+        $post->approval = "APPROVED";
 
         $post->save();
         $feedback = new job_seeker_feedback();
 
         $feedback->job_seeker_id = $post->candidate_id;
+        $feedback->job_post_id = $post->job_post_id;
         $feedback->phase = 'SCR';
-        $feedback->status = 'ACCEPTED';
+        $feedback->status = 'APPROVED';
         $feedback->save();
 
         return response()->json(['res' => true]);
@@ -132,12 +131,12 @@ class ManageCandidateController extends Controller
 
     public function rejectCandidateReq(Request $req)
     {
-        $res = $req->only("feedback", "id");
+
         $jvc = new Job_Vacency_Candidate();
 
-        $post = $jvc->where('id', $res["id"])->first();
+        $post = $jvc->where('id', $req["id"])->first();
         $jv = new JobVacency();
-        $post->status = "REJECTED";
+        $post->approval = "REJECTED";
         $post->save();
         $job = $jv->where('id', $post->job_post_id)->first();
         $job->vacency_count = $job->vacency_count + 1;
@@ -145,9 +144,10 @@ class ManageCandidateController extends Controller
 
         $feedback = new job_seeker_feedback();
         $feedback->job_seeker_id = $post->candidate_id;
+        $feedback->job_post_id = $post->job_post_id;
         $feedback->phase = 'SCR';
         $feedback->status = 'REJECTED';
-        $feedback->feedback = $res['feedback'];
+        $feedback->feedback = $req['feedback'];
         $feedback->save();
 
         return response()->json(['res' => true]);

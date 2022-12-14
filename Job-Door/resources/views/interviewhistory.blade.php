@@ -1,45 +1,30 @@
-@extends('layout.jpDashboardLayout')
+@extends('layout.dashboardlayout')
 
 @section('title')
-Interview Proposal
+Interview History
 @endsection
 
 @section('content')
 
 
-<div class="container p-3 mb-3 border border-primary">
-
-
-
-
-    <div class="row">
-        <div class="col-sm-4">
-
-
-
-            <button type="button" data-bs-toggle="modal" data-bs-target="#confirmModal" class="btn btn-primary">Set Interview Phase</button>
-
-            <div id="proposal-root">
-
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
+<div id="history-root"></div>
 
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Set Phases</h5>
+                <h5 class="modal-title">Feedback</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"></span>
                 </button>
             </div>
-            <div id="ip-root"></div>
+            <div class="modal-body" id="feedback-root">
 
+            </div>
+            <div class="modal-footer">
+                <a href="deleteProfile" class="btn btn-danger">Confirm</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

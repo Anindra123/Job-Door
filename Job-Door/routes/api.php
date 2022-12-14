@@ -5,6 +5,7 @@ use App\Http\Controllers\AppliedJobController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\JobVacencyController;
 use App\Http\Controllers\ManageCandidateController;
+use App\Http\Controllers\ProposalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::get('/apply/{id}', [JobVacencyController::class, 'applyVacantJob']);
 Route::get('/getJobVacencyPost/{id}', [JobVacencyController::class, 'getJobPost']);
 Route::get('/decline/{id}', [JobVacencyController::class, 'declineVacantJob']);
 Route::get("/showAppliedJob", [AppliedJobController::class, 'get']);
+Route::get("/getInterviewHist", [AppliedJobController::class, 'getHistory']);
 
 /**
 JOB PROVIDER API
@@ -42,6 +44,6 @@ Route::post("/declineRequest", [ManageCandidateController::class, "rejectCandida
 Route::get("/getCandidateList", [ManageCandidateController::class, "manageCandidateList"]);
 Route::get('/showPortfolio/{id}', [ManageCandidateController::class, "viewCandidatePortfolio"]);
 Route::get('/cvdownload/{id}', [CVController::class, 'downloadCV']);
-
+Route::get('/getApprovedList/{id}', [ProposalController::class, 'getApprovedCandidates']);
 
 Route::post("/loginAdmin", [AdminController::class, 'login']);
