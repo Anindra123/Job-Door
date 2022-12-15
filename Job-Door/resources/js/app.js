@@ -23,4 +23,6 @@ import ShowJobList from "./components/ShowJobList";
 import InterviewProposal from "./components/InterviewProposal";
 import AppliedJob from "./components/AppliedJob";
 import ManageCandidate from "./components/ManageCandidate";
+import PhaseDialog from "./components/PhaseDialog";
+import InterviewHistory from "./components/InterviewHistory";
 // import Login from "./components/Login";

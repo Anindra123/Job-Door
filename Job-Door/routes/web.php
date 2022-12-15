@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\CompanyInfocontroller;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
@@ -161,6 +162,7 @@ Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLog
     Route::get('/showInterview', [InterviewProcessController::class, 'getAssessment']);
     Route::post('/submitAnswer', [InterviewProcessController::class, 'submitAssesment']);
     Route::get('/viewApplied', [AppliedJobController::class, 'getView']);
+    Route::get('/showHistory', [InterviewHistoryController::class, 'get']);
 });
 
 //Admin routes
@@ -212,7 +214,11 @@ Route::group(['middleware' => ['auth', 'checkLogin', 'verified', 'preventBackLog
     Route::get('/hireCandidate-{id}', [InterviewProcessController::class, 'hireInterviewCandidate']);
     Route::get('/reject-{id}', [InterviewProcessController::class, 'rejectInterviewCandidate']);
     Route::get('/showCandidateList', [ManageCandidateController::class, 'getView']);
-    Route::get('/showInterviewHistory',[InterviewHistoryController::class,'get']);
+    Route::get('/showInterviewHistory', [InterviewHistoryController::class, 'get']);
+    Route::get('/companyinfo', [CompanyInfocontroller::class, 'getCompanyinfo']);
+    Route::post('/companyinfo', [CompanyInfocontroller::class, 'updateCompanyifo']);
+    Route::get('/companyinfo', [CompanyInfocontroller::class, 'DeleteCompanyinfo']);
+    Route::get('/companyinfo', [CompanyInfocontroller::class, 'updateCompanyifo']);
 });
 
 

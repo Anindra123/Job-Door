@@ -33,12 +33,7 @@ CompanyInfo
                     <h6 class="card-subtitle mb-1"><strong>Company Address</strong></h6>
                     <p class="card-text mb-4">{{$j->company_address}}</p>
 
-                    <!-- <h6 class="card-subtitle mb-1"><strong>Location</strong></h6>
-                    <p class="card-text mb-4">{{$j->job_location_type}}</p>
-                    <h6 class="card-subtitle mb-1"><strong>Vacency Count</strong></h6>
-                    <p class="card-text mb-5">{{$j->vacency_count}}</p>
-                    <h5 class="card-subtitle mb-3"><strong>Salary</strong></h5>
-                    <h5 class="card-text mb-4 text-warning">{{$j->salary}}</h5> -->
+        
                     <a href="/jobvacencyUpdate-{{$j->id}}" class="btn btn-sm btn-info">Update</a>
                     <a href="/jobvacency-{{$j->id}}" class="btn btn-sm btn-danger">Delete</a>
                 </div>

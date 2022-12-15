@@ -79,7 +79,7 @@
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action">Interview History</a>
+                                    <a href="/showHistory" class="list-group-item list-group-item-action">Interview History</a>
                                     <a href="showInterview" class=" list-group-item list-group-item-action">Current Interview Process</a>
 
                                 </div>

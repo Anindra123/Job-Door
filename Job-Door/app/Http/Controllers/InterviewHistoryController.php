@@ -31,18 +31,24 @@ class InterviewHistoryController extends Controller
         $jv = new JobVacency();
         $jobSeeker = new Job_Seeker();
         $jobProvider = new JobProvider();
-        $u = new UserModel();
+
         $pr = new Portfolio();
         $jvc = new Job_Vacency_Candidate();
 
         $feedback = new job_seeker_feedback();
 
 
+        $u = new UserModel();
+
+
         $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
         $tokenID = PersonalAccessToken::where('token', $token)->first();
         $uid = $tokenID->tokenable->id;
 
-        $f = $feedback->where('job_seeker_id', $uid)->get();
+        $user = $u->where('id', $uid)->first();
+
+        $f = $feedback->where('job_seeker_id', $user->profile_id)->get();
 
         $lst = [];
 

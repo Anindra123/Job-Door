@@ -88,13 +88,7 @@ class ManageCandidateController extends Controller
             $cv_path = $cv->where('pr_id', $port->id)->first();
             if (!empty($skills)) $skillList = explode(',', $skills->skill_list);
             if (!empty($cv_path)) $path = $cv_path->cv_file_path;
-            // session()->put("prid", $port->id);
-            // $rethtml = view('viewportfolio')
-            //     ->with('port', $port->portfolio_title)
-            //     ->with('sk_list', $skillList)
-            //     ->with('cv_path', $path)
-            //     ->with('wk_list', $workExpList)
-            //     ->with('s_list', $servicesList)->render();
+
             $u_port['title'] = $port->portfolio_title;
             $u_port['skills'] = $skillList;
             $u_port['workExp'] = $workExpList;

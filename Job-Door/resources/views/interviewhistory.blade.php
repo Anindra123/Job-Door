@@ -22,7 +22,7 @@ Interview History
 
             </div>
             <div class="modal-footer">
-                <a href="deleteProfile" class="btn btn-danger">Confirm</a>
+
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

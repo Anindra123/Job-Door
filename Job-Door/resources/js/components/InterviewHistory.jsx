@@ -5,12 +5,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import approvalColor from "./ApprovalStyle";
 
-const interviewHistUrl = "http://localhost:8000/api/showAppliedJob";
+const interviewHistUrl = "http://localhost:8000/api/getInterviewHist";
 
 const InterviewHistory = () => {
     let [list, setlist] = useState([]);
     let [applied, setApplied] = useState(true);
-
+    const setPhase = (name) => {
+        if (name === "SCR") return "SCREENING";
+        if (name === "TECH") return "TECHNICAL";
+    };
     useEffect(() => {
         axios
             .get(interviewHistUrl, {
@@ -33,12 +36,27 @@ const InterviewHistory = () => {
     return (
         <>
             {applied ? (
-                list && (
-                    <>
-                        <h1>Screening</h1>
-                        <div id="scr-root"></div>
-                    </>
-                )
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Phase</th>
+                            <th>Applied Position</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {list &&
+                            list.map((l, i) => (
+                                <tr key={i}>
+                                    <td>{l.company}</td>
+                                    <td>{setPhase(l.phase)}</td>
+                                    <td>{l.position}</td>
+                                    {approvalColor(l.status)}
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
             ) : (
                 <div className="container">
                     <div className="row">
@@ -56,9 +74,9 @@ const InterviewHistory = () => {
 
 export default InterviewHistory;
 
-if (document.getElementById("appliedjobs-root")) {
+if (document.getElementById("history-root")) {
     ReactDOM.render(
         <InterviewHistory />,
-        document.getElementById("appliedjobs-root")
+        document.getElementById("history-root")
     );
 }

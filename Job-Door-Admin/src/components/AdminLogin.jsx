@@ -4,32 +4,41 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
-import { Form } from "react-router-dom";
+import { Form, redirect } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 const loginUrl = "http://localhost:8000/api/loginAdmin";
 const sanctumURL = "http://localhost:8000/sanctum/csrf-cookie";
+let sucess = null;
+let button = <button className="btn btn-primary">Login</button>;
+async function login(data) {
+  return await axios.post(loginUrl, data, {
+    withCredentials: true,
+  });
+}
 
 export async function action({ request, params }) {
   const formData = await request.formData();
   const loginInfo = Object.fromEntries(formData);
-
-  // axios.get(sanctumURL).then(() => {
-  axios.post(
-    loginUrl,
-    loginInfo,
-    {
-      withCredentials: true,
-    },
-    (r) => {
-      if (r.data.error) {
-        console.log(r.data.error);
-      } else {
-        console.log("hit");
-      }
-    }
+  button = (
+    <Button variant="primary" disabled>
+      <Spinner
+        as="span"
+        animation="grow"
+        size="sm"
+        role="status"
+        aria-hidden="true"
+      />
+      Loading...
+    </Button>
   );
-  // });
-  return null;
+  // axios.get(sanctumURL).then(() => {
+  sucess = await (await login(loginInfo)).data;
+
+  if (sucess) return redirect("/dashboard");
+  return redirect("/");
+
+  // return null;
 }
 const AdminLogin = () => {
   // let [formData, setFormData] = useState({ email: "", password: "" });
@@ -42,7 +51,8 @@ const AdminLogin = () => {
   return (
     <Container className="border-primary p-5 shadow-lg">
       <Row>
-        <Col lg>
+        <Col lg-3></Col>
+        <Col lg-6>
           <Row>
             <Col>
               <h3>Admin Login</h3>
@@ -58,13 +68,10 @@ const AdminLogin = () => {
               <input type="password" className="form-control" name="password" />
             </div>
             <br />
-            <p>
-              <button type="submit" className="btn btn-danger">
-                Login
-              </button>
-            </p>
+            <p>{button}</p>
           </Form>
         </Col>
+        <Col lg-3></Col>
       </Row>
     </Container>
   );

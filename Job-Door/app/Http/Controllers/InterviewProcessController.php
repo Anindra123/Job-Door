@@ -10,6 +10,7 @@ use App\Models\job_seeker_feedback;
 use App\Models\Job_Vacency_Candidate;
 use App\Models\JobProvider;
 use App\Models\JobVacency;
+use App\Models\ProposalPhaseModel;
 use App\Models\technical_interview_submission;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
@@ -327,5 +328,42 @@ class InterviewProcessController extends Controller
         $feedback->save();
 
         return back();
+    }
+
+    public function startInterviewProcess(Request $req)
+    {
+        $interview = new InterviewProcess();
+
+        $jv = new JobVacency();
+        $jp = new JobProvider();
+        $u = new UserModel();
+        $js = new Job_Seeker();
+        $jvc = new Job_Vacency_Candidate();
+
+        $interview = $interview->where('id', $req['id'])->first();
+        $interview['stime'] = $req['stime'];
+        $interview['etime'] = $req['etime'];
+        $interview['date'] = $req['date'];
+        $interview['status'] = 'STARTED';
+        $interview->save();
+        $pphase = new ProposalPhaseModel();
+
+        $pphase = $pphase->where("id", $interview->jv_id)->first();
+
+        $jv = $jv->where('id', $pphase->job_post_id)->first();
+        $jp = $jp->where('id', $pphase->jp_id)->first();
+
+        $jvc = $jvc->where('job_post_id', $jv->id)->where('provider_id', $jp->id)->get();
+
+        foreach ($jvc as $p) {
+            $tcs = new technical_interview_submission();
+
+            $tcs['submitter_id'] = $p['candidate_id'];
+            $tcs['interview_id'] = $interview['id'];
+            $tcs['provider_id'] = $p['provider_id'];
+            $tcs->save();
+        }
+
+        return response()->json(['res' => true]);
     }
 }

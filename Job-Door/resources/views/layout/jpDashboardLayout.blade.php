@@ -48,7 +48,7 @@
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="list-group">
-                                    <a href="portfolio" class="list-group-item list-group-item-action">Manage Company Info</a>
+                                    <a href="/companyinfo" class="list-group-item list-group-item-action">Manage Company Info</a>
                                 </div>
                             </div>
                         </div>

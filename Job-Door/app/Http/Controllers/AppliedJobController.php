@@ -6,6 +6,7 @@ use App\Models\Job_Seeker;
 use App\Models\Job_Vacency_Candidate;
 use App\Models\JobVacency;
 use App\Models\User;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
@@ -19,7 +20,8 @@ class AppliedJobController extends Controller
         $jvc = new Job_Vacency_Candidate();
 
         $js = new Job_Seeker();
-        $u = new User();
+        $u = new UserModel();
+
 
         $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
 
@@ -27,10 +29,10 @@ class AppliedJobController extends Controller
         $uid = $tokenID->tokenable->id;
 
         $user = $u->where('id', $uid)->first();
+        $js = $js->where('id', $user->profile_id)->first();
 
 
-        $jobseeker = $js->where('id', $user->id)->first();
-        $applied = $jvc->where("candidate_id", $jobseeker->id)->get();
+        $applied = $jvc->where("candidate_id", $js->id)->get();
 
         $lst = array();
         if (sizeof($applied) > 0) {

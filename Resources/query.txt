@@ -6,3 +6,17 @@ CREATE TABLE `job_door_db`.`proposal_phases` (`id` INT NOT NULL AUTO_INCREMENT ,
 
 
 ALTER TABLE `proposal_phases` ADD `phase_name` TEXT NOT NULL AFTER `num_of_phases`, ADD `jp_id` INT NOT NULL AFTER `phase_name`;
+
+ALTER TABLE `proposal_phases`
+  DROP `phase_name`;
+
+
+ALTER TABLE `technical_interview` ADD `jp_id` INT NOT NULL AFTER `jv_id`;
+ALTER TABLE `technical_interview` ADD FOREIGN KEY (`jp_id`) REFERENCES `job_provider`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `technical_interview` DROP FOREIGN KEY `technical_interview_ibfk_1`; ALTER TABLE `technical_interview` ADD CONSTRAINT `technical_interview_ibfk_1` FOREIGN KEY (`jv_id`) REFERENCES `proposal_phases`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+ALTER TABLE `technical_interview` CHANGE `stime` `stime` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, CHANGE `etime` `etime` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;
+
+CREATE TABLE `job_door_db`.`company_information` (`cf_id` INT NOT NULL AUTO_INCREMENT , `ctittle` TEXT NOT NULL , `caddress` TEXT NOT NULL , `cwebsite` TEXT NOT NULL , `cservice` TEXT NOT NULL , `cemail` TEXT NOT NULL , `cfbpage` TEXT NOT NULL , `current_occupation` TEXT NOT NULL , PRIMARY KEY (`cf_id`)) ENGINE = InnoDB;

@@ -70,12 +70,7 @@ Update Company Information
                 </div>
                 <div class="form-group mb-3">
                     <label for="cservice" class="form-label">Company Service :</label>
-                    <select name="cservice" id="cservice" class="form-control">
-                        <option value="" selected>Select an type</option>
-                        <option value="good">Good</option>
-                        <option value="bad">Bad</option>
-                        <option value="average">Average</option>
-                    </select>
+                    <textarea name="cservice" class="form-control" id="address" cols="30" rows="50">{{$val->cservice ?? old('cservice')}}</textarea>
                     @if($errors->has('cservice'))
                     <span class="text text-danger">
                         <strong>{{$errors->first('cservice')}}</strong>

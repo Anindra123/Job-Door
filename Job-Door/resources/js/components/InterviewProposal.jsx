@@ -1,24 +1,34 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 import PhaseDialog from "./PhaseDialog";
+import SpinnerButton from "./SpinnerButton";
+import useSpinner from "./useSpinner";
 
 const baserUrl = "http://localhost:8000/api/getVacencyPostList";
-const postUrl = "";
+const postUrl = "http://localhost:8000/api/saveProposalPhase";
 const approvedListUrl = "http://localhost:8000/api/getApprovedList";
+const phasesUrl = "http://localhost:8000/api/getPhases";
+const getProposal = "http://localhost:8000/api/getInterviewProposal";
 const InterviewProposal = () => {
     const {
         register,
         handleSubmit,
         watch,
         setValue,
-        formState,
         formState: { errors },
     } = useForm({ defaultValues: { jv_id: 0, num_of_phases: 0 } });
+    let [load, setLoad] = useState(false);
     let [cList, setcList] = useState([]);
     let [proposal, setProposal] = useState({ jv_id: 0, num_of_phases: 0 });
     let [vacency, setVacency] = useState([]);
+    let [pList, setpList] = useState(null);
+    let [isprop, setProp] = useState(false);
+    let [prop, setIntProp] = useState(null);
+    let closeRef = useRef(null);
+
     useEffect(() => {
         axios.get(baserUrl).then((r) => {
             setVacency(r.data);
@@ -27,10 +37,54 @@ const InterviewProposal = () => {
     }, []);
 
     useEffect(() => {
+        axios
+            .get(phasesUrl, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+            })
+            .then((r) => {
+                setpList(r.data.res);
+                axios
+                    .get(`${getProposal}/${r.data.res[0].id}`, {
+                        withCredentials: true,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": "*",
+                        },
+                    })
+                    .then((r) => {
+                        console.log(r.data);
+                        setIntProp(r.data);
+                    });
+            });
+    }, []);
+
+    useEffect(() => {
+        ReactDOM.render(
+            <PhaseDialog phase={pList} pr={prop} setProp={setIntProp} />,
+            document.getElementById("proposal-root")
+        );
+    }, [pList, prop]);
+
+    useEffect(() => {
         const sub = watch((data) => {
             axios.get(`${approvedListUrl}/${data.jv_id}`).then((r) => {
                 setcList(r.data.res);
             });
+            axios
+                .get(`${phasesUrl}/${data.jv_id}`, {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                })
+                .then((r) => {
+                    setProp(r.data.res);
+                });
         });
 
         return () => {
@@ -43,14 +97,41 @@ const InterviewProposal = () => {
         setProposal({ ...proposal, [e.target.name]: e.target.value });
     };
 
-    // const handleFormSubmission = (e) => {
-    //     e.preventDefault();
-    //     // console.log(proposal);
-
-    //     axios.post();
-    // };
-    const onSubmit = (data) => {};
-    console.log(cList);
+    const onSubmit = (data) => {
+        setLoad(true);
+        axios
+            .post(
+                postUrl,
+                {
+                    jv_id: data.jv_id,
+                    num_of_phases: Number(data.num_of_phases),
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                }
+            )
+            .then((r) => {
+                if (r.data.res) {
+                    axios
+                        .get(phasesUrl, {
+                            withCredentials: true,
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Access-Control-Allow-Origin": "*",
+                            },
+                        })
+                        .then((r) => {
+                            setpList(r.data.res);
+                            setLoad(false);
+                            closeRef.current.click();
+                        });
+                }
+            });
+    };
     return (
         <>
             <div class="modal-body">
@@ -111,12 +192,34 @@ const InterviewProposal = () => {
                                 "Please enter a valid phase number"}
                         </span>
                     </div>
+
                     <br />
+
                     <div class="modal-footer">
                         {cList.length > 0 ? (
-                            <button type="submit" className="btn btn-success">
-                                Save
-                            </button>
+                            load ? (
+                                <SpinnerButton cls="btn btn-success" />
+                            ) : isprop ? (
+                                <>
+                                    <span className="text text-danger">
+                                        Already proposal phase set
+                                    </span>{" "}
+                                    <button
+                                        type="submit"
+                                        className="btn btn-success"
+                                        disabled
+                                    >
+                                        Save
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    type="submit"
+                                    className="btn btn-success"
+                                >
+                                    Save
+                                </button>
+                            )
                         ) : (
                             <button
                                 type="submit"
@@ -130,12 +233,14 @@ const InterviewProposal = () => {
                             type="button"
                             class="btn btn-secondary"
                             data-bs-dismiss="modal"
+                            ref={closeRef}
                         >
                             Close
                         </button>
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </>
     );
 };

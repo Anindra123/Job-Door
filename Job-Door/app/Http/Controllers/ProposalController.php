@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InterviewProposalValidation;
+use App\Models\InterviewProcess;
 use App\Models\InterviewProposal;
 use App\Models\Job_Seeker;
 use App\Models\Job_Vacency_Candidate;
 use App\Models\JobProvider;
 use App\Models\JobVacency;
+use App\Models\ProposalPhaseModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Crypt;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class ProposalController extends Controller
 {
@@ -208,5 +213,154 @@ class ProposalController extends Controller
             return response()->json(['res' => $list]);
         }
         return response()->json(['res' => $post]);
+    }
+
+    public function saveProposalPhases(Request $req)
+    {
+        $jv = new JobVacency();
+        $jp = new JobProvider();
+        $u = new UserModel();
+        $jvc = new Job_Vacency_Candidate();
+        $jobS = new Job_Seeker();
+        $pphase = new ProposalPhaseModel();
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('profile_id', $uid)->first();
+        $jobP = $jp->where('id', $user->profile_id)->first();
+        $pphase->job_post_id = $req['jv_id'];
+        $pphase->num_of_phases = $req['num_of_phases'];
+        $pphase->jp_id = $jobP->id;
+
+        $pphase->save();
+
+        return response()->json(['res' => true]);
+    }
+
+    public function getProposalPhaseByID($id = null)
+    {
+        $jv = new JobVacency();
+        $jp = new JobProvider();
+        $u = new UserModel();
+        $jvc = new Job_Vacency_Candidate();
+        $jobS = new Job_Seeker();
+        $pphase = new ProposalPhaseModel();
+        // return response()->json($id);
+        $lst = [];
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('profile_id', $uid)->first();
+        $jobP = $jp->where('id', $user->profile_id)->first();
+
+        $pp = $pphase->where('jp_id', $jobP->id)->where('job_post_id', $id)->first();
+        // return response()->json(['res' => $pp]);
+
+        // foreach ($pp as $p) {
+        //     $post = $jv->where('id', $p->job_post_id)->first();
+        //     $c['post'] = $post->job_title;
+        //     $c['num_of_phases'] = $p->num_of_phases;
+        //     $c['id'] = $p->id;
+        //     array_push($lst, $c);
+        // }
+
+        if (!empty($pp)) return response()->json(['res' => true]);
+        return response()->json(['res' => false]);
+    }
+    public function getProposalPhase()
+    {
+        $jv = new JobVacency();
+        $jp = new JobProvider();
+        $u = new UserModel();
+        $jvc = new Job_Vacency_Candidate();
+        $jobS = new Job_Seeker();
+        $pphase = new ProposalPhaseModel();
+
+        $lst = [];
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('profile_id', $uid)->first();
+        $jobP = $jp->where('id', $user->profile_id)->first();
+
+        $pp = $pphase->where('jp_id', $jobP->id)->get();
+        // return response()->json(['res' => $pp]);
+
+        foreach ($pp as $p) {
+            $post = $jv->where('id', $p->job_post_id)->first();
+            $c['post'] = $post->job_title;
+            $c['num_of_phases'] = $p->num_of_phases;
+            $c['id'] = $p->id;
+            array_push($lst, $c);
+        }
+
+        if (!empty($pp)) return response()->json(['res' => $lst]);
+        return response()->json(['res' => []]);
+    }
+
+    public function saveProposal(Request $req)
+    {
+        $jv = new JobVacency();
+        $jp = new JobProvider();
+        $u = new UserModel();
+        $jvc = new Job_Vacency_Candidate();
+        $jobS = new Job_Seeker();
+
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('profile_id', $uid)->first();
+        $jobP = $jp->where('id', $user->profile_id)->first();
+
+        $tech = new InterviewProcess();
+        if ($req['type'] === 'TECH') {
+
+            $tech['jp_id'] = $jobP->id;
+            $tech['title'] = $req['title'];
+            $tech['description'] = $req['description'];
+            $tech['stime'] = $req['stime'];
+            $tech['etime'] = $req['etime'];
+            $tech['date'] = $req['date'];
+            $tech['question'] = $req['question'];
+
+            $tech['jv_id'] = $req['id'];
+            $tech->save();
+        }
+
+
+
+        return response()->json(['res' => true]);
+    }
+
+    public function getInterviewProposal($id = null)
+    {
+        $jv = new JobVacency();
+        $jp = new JobProvider();
+        $u = new UserModel();
+        $jvc = new Job_Vacency_Candidate();
+        $jobS = new Job_Seeker();
+
+        $token = explode('|', Crypt::decrypt(Cookie::get('token'), false))[1];
+
+        $tokenID = PersonalAccessToken::where('token', $token)->first();
+        $uid = $tokenID->tokenable->id;
+
+        $user = $u->where('profile_id', $uid)->first();
+        $jobP = $jp->where('id', $user->profile_id)->first();
+
+        $tech = new InterviewProcess();
+
+        $t = $tech->where('jv_id', $id)->where('jp_id', $jobP->id)->first();
+
+        if (!empty($t)) return response()->json(['res' => $t, 'type' => 'TECH']);
+        return response()->json(null);
     }
 }
